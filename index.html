@@ -3,1113 +3,3235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>互联网大厂设计岗位知识产权调研分析报告</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<title>DW Design System — 得物设计系统</title>
 <style>
-  :root {
-    --primary: #2563eb;
-    --primary-light: #dbeafe;
-    --secondary: #7c3aed;
-    --accent: #059669;
-    --warning: #d97706;
-    --danger: #dc2626;
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --text: #1e293b;
-    --text-secondary: #64748b;
-    --border: #e2e8f0;
-  }
+/* ============================================
+   TOKENS
+   ============================================ */
+:root {
+  /* Brand */
+  --black:        #0A0A0B;
+  --black-2:      #111114;
+  --black-3:      #1A1A1F;
+  --black-4:      #222229;
+  --black-5:      #2C2C35;
+  --surface:      #16161C;
+  --surface-2:    #1E1E26;
+  --surface-3:    #26262F;
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Gold */
+  --gold-50:      #FFF9E6;
+  --gold-100:     #FFECB3;
+  --gold-200:     #FFD97D;
+  --gold-300:     #FFC63D;
+  --gold-400:     #FFB800;
+  --gold-500:     #F0A500;
+  --gold-600:     #CC8C00;
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-  }
+  /* Red */
+  --red-400:      #FF4D4F;
+  --red-500:      #F03030;
+  --red-600:      #C81414;
 
-  .hero {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #7c3aed 100%);
-    color: white;
-    padding: 60px 40px;
-    text-align: center;
-  }
+  /* Neutral */
+  --white:        #FFFFFF;
+  --gray-100:     #F5F5F5;
+  --gray-200:     #E8E8E8;
+  --gray-300:     #D0D0D0;
+  --gray-400:     #A0A0A8;
+  --gray-500:     #707078;
+  --gray-600:     #505058;
+  --gray-700:     #38383F;
 
-  .hero h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
-  .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
-  .hero .meta { margin-top: 20px; font-size: 0.9rem; opacity: 0.7; }
+  /* Semantic */
+  --text-primary:   #FFFFFF;
+  --text-secondary: #A0A0A8;
+  --text-tertiary:  #505058;
+  --text-inverse:   #0A0A0B;
+  --border:         rgba(255,255,255,0.08);
+  --border-strong:  rgba(255,255,255,0.15);
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
 
-  .nav-bar {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  .nav-bar a {
-    display: inline-block;
-    padding: 14px 18px;
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-  }
-  .nav-bar a:hover, .nav-bar a.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-  }
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl:24px;
+  --radius-full: 9999px;
 
-  .section { margin-bottom: 40px; scroll-margin-top: 60px; }
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-title .icon {
-    width: 32px; height: 32px;
-    background: var(--primary-light);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-  }
-  .section-desc { color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem; }
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.6);
+  --shadow-gold:0 0 24px rgba(240,165,0,0.25);
 
-  .card {
-    background: var(--card);
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  }
-  .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; }
+  /* Motion */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:    cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-inout: cubic-bezier(0.87, 0, 0.13, 1);
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-slower: 600ms;
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  @media (max-width: 768px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  }
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
+}
 
-  .stat-card {
-    background: var(--card);
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    padding: 20px;
-    text-align: center;
-  }
-  .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--primary); }
-  .stat-card .label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  .chart-container { position: relative; height: 350px; margin: 16px 0; }
-  .chart-container-lg { position: relative; height: 420px; margin: 16px 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
-  th { background: #f1f5f9; font-weight: 600; color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
-  tr:hover { background: #f8fafc; }
+body {
+  font-family: var(--font-sans);
+  background: var(--black);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .badge-blue { background: #dbeafe; color: #1d4ed8; }
-  .badge-purple { background: #ede9fe; color: #6d28d9; }
-  .badge-green { background: #d1fae5; color: #047857; }
-  .badge-orange { background: #fef3c7; color: #b45309; }
-  .badge-red { background: #fee2e2; color: #b91c1c; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-  .opportunity-card {
-    background: var(--card);
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    padding: 24px;
-    margin-bottom: 16px;
-    border-left: 4px solid var(--primary);
-    transition: transform 0.2s;
-  }
-  .opportunity-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-  .opportunity-card h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
-  .opportunity-card .difficulty { font-size: 0.8rem; margin-top: 10px; }
+/* ============================================
+   LAYOUT
+   ============================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
 
-  .timeline {
-    position: relative;
-    padding-left: 30px;
-  }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border);
-  }
-  .timeline-item {
-    position: relative;
-    margin-bottom: 24px;
-  }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: 6px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--primary);
-  }
-  .timeline-item .year { font-weight: 700; color: var(--primary); font-size: 0.9rem; }
-  .timeline-item .desc { color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px; }
+.section {
+  padding: var(--space-20) 0;
+}
 
-  .callout {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin: 16px 0;
-    font-size: 0.9rem;
-    color: #1e40af;
-  }
-  .callout.warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
-  .callout.success { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+.section + .section {
+  border-top: 1px solid var(--border);
+}
 
-  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-400);
+  margin-bottom: var(--space-3);
+}
 
-  .comparison-bar {
-    display: flex;
-    align-items: center;
-    margin: 8px 0;
-  }
-  .comparison-bar .label { width: 80px; font-size: 0.85rem; font-weight: 500; }
-  .comparison-bar .bar-bg {
-    flex: 1;
-    height: 24px;
-    background: #f1f5f9;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-  }
-  .comparison-bar .bar-fill {
-    height: 100%;
-    border-radius: 6px;
-    transition: width 1s ease;
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: white;
-  }
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
 
-  .footer {
-    background: #1e293b;
-    color: #94a3b8;
-    padding: 30px 40px;
-    text-align: center;
-    font-size: 0.85rem;
-    margin-top: 40px;
-  }
+.section-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: var(--space-10);
+}
 
-  .tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-  }
-  .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 60px;
+  background: rgba(10, 10, 11, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--gold-400);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -0.05em;
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.nav-logo-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  margin-top: 1px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: color var(--duration-fast) var(--ease-out),
+              background var(--duration-fast) var(--ease-out);
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+  background: var(--surface-3);
+}
+
+.nav-links a.active {
+  color: var(--gold-400);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav-version {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  background: var(--surface-3);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 60px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,165,0,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(240,165,0,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 20% 70%, rgba(255,77,79,0.04) 0%, transparent 50%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  width: 100%;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: rgba(240,165,0,0.1);
+  border: 1px solid rgba(240,165,0,0.25);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold-300);
+  letter-spacing: 0.03em;
+  margin-bottom: var(--space-8);
+  text-transform: uppercase;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--gold-400);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: var(--space-6);
+}
+
+.hero-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--gold-300) 0%, var(--gold-500) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  line-height: 1.75;
+  margin-bottom: var(--space-10);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--space-10);
+  margin-top: var(--space-16);
+  padding-top: var(--space-10);
+  border-top: 1px solid var(--border);
+}
+
+.stat-item {}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.btn:active { transform: scale(0.97); }
+
+/* Sizes */
+.btn-xs  { height: 28px; padding: 0 10px; font-size: 12px; border-radius: var(--radius-sm); }
+.btn-sm  { height: 34px; padding: 0 14px; font-size: 13px; }
+.btn-md  { height: 42px; padding: 0 20px; font-size: 14px; }
+.btn-lg  { height: 52px; padding: 0 28px; font-size: 16px; border-radius: var(--radius-lg); }
+.btn-xl  { height: 60px; padding: 0 36px; font-size: 17px; border-radius: var(--radius-lg); }
+
+/* Variants */
+.btn-primary {
+  background: var(--gold-400);
+  color: var(--black);
+  border-color: var(--gold-400);
+}
+.btn-primary:hover {
+  background: var(--gold-300);
+  border-color: var(--gold-300);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn-secondary {
+  background: var(--surface-3);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.btn-secondary:hover {
+  background: var(--black-5);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: transparent;
+}
+.btn-ghost:hover {
+  color: var(--text-primary);
+  background: var(--surface-3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--gold-400);
+  border-color: rgba(240,165,0,0.4);
+}
+.btn-outline:hover {
+  background: rgba(240,165,0,0.08);
+  border-color: var(--gold-400);
+}
+
+.btn-danger {
+  background: var(--red-500);
+  color: var(--white);
+  border-color: var(--red-500);
+}
+.btn-danger:hover {
+  background: var(--red-400);
+  border-color: var(--red-400);
+}
+
+.btn-icon { width: 42px; padding: 0; }
+.btn-icon.btn-sm { width: 34px; }
+.btn-icon.btn-lg { width: 52px; }
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+}
+
+.card-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-body {
+  padding: var(--space-6);
+}
+
+.card-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+/* Product Card */
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all var(--duration-base) var(--ease-out);
+  cursor: pointer;
+}
+
+.product-card:hover {
+  border-color: rgba(240,165,0,0.3);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(240,165,0,0.15);
+  transform: translateY(-3px);
+}
+
+.product-card-img {
+  aspect-ratio: 1;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(transparent, rgba(0,0,0,0.4));
+}
+
+.product-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.product-card-info {
+  padding: var(--space-4);
+}
+
+.product-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.product-card-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.product-card-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--red-400);
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.product-card-price-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* ============================================
+   BADGES & TAGS
+   ============================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.badge-gold    { background: rgba(240,165,0,0.15); color: var(--gold-300); border: 1px solid rgba(240,165,0,0.25); }
+.badge-red     { background: rgba(240,48,48,0.15);  color: #FF6B6B;         border: 1px solid rgba(240,48,48,0.25); }
+.badge-green   { background: rgba(34,197,94,0.12);  color: #4ADE80;         border: 1px solid rgba(34,197,94,0.2); }
+.badge-blue    { background: rgba(59,130,246,0.12); color: #60A5FA;         border: 1px solid rgba(59,130,246,0.2); }
+.badge-purple  { background: rgba(168,85,247,0.12); color: #C084FC;         border: 1px solid rgba(168,85,247,0.2); }
+.badge-neutral { background: var(--surface-3);      color: var(--text-secondary); border: 1px solid var(--border); }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.tag-default {
+  background: var(--surface-3);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.tag-default:hover { border-color: var(--border-strong); color: var(--text-primary); }
+
+.tag-active {
+  background: rgba(240,165,0,0.12);
+  color: var(--gold-300);
+  border: 1px solid rgba(240,165,0,0.3);
+}
+
+/* ============================================
+   INPUTS
+   ============================================ */
+.input-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.input-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+.input {
+  height: 42px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+  width: 100%;
+}
+
+.input::placeholder { color: var(--text-tertiary); }
+
+.input:hover { border-color: var(--border-strong); }
+
+.input:focus {
+  border-color: var(--gold-400);
+  background: var(--surface-3);
+  box-shadow: 0 0 0 3px rgba(240,165,0,0.12);
+}
+
+.input-search {
+  padding-left: 42px;
+}
+
+.input-icon {
+  position: absolute;
+  bottom: 11px;
+  left: 14px;
+  color: var(--text-tertiary);
+  font-size: 15px;
+}
+
+.input-hint { font-size: 12px; color: var(--text-tertiary); }
+.input-error { border-color: var(--red-500) !important; }
+.input-hint.error { color: var(--red-400); }
+
+/* ============================================
+   AVATARS
+   ============================================ */
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  flex-shrink: 0;
+  background: var(--surface-3);
+  color: var(--text-secondary);
+  border: 2px solid var(--border);
+  overflow: hidden;
+}
+
+.avatar-xs  { width: 24px; height: 24px; font-size: 10px; }
+.avatar-sm  { width: 32px; height: 32px; font-size: 12px; }
+.avatar-md  { width: 40px; height: 40px; font-size: 14px; }
+.avatar-lg  { width: 52px; height: 52px; font-size: 18px; }
+.avatar-xl  { width: 68px; height: 68px; font-size: 22px; }
+
+.avatar-gold  { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--black); border-color: rgba(240,165,0,0.3); }
+.avatar-red   { background: linear-gradient(135deg, #c81414, #ff4d4f); color: white; border-color: rgba(240,48,48,0.3); }
+.avatar-blue  { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-color: rgba(59,130,246,0.3); }
+
+.avatar-stack {
+  display: flex;
+}
+.avatar-stack .avatar + .avatar {
+  margin-left: -10px;
+}
+.avatar-stack .avatar {
+  border: 2.5px solid var(--black);
+}
+
+/* ============================================
+   TYPOGRAPHY SHOWCASE
+   ============================================ */
+.type-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-6);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.type-row:last-child { border-bottom: none; }
+
+.type-meta {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.type-meta-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.type-meta-size {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.type-sample { flex: 1; }
+
+/* ============================================
+   COLOR SWATCHES
+   ============================================ */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+.color-swatch {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.color-swatch-preview {
+  height: 80px;
+}
+
+.color-swatch-info {
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+}
+
+.color-swatch-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.color-swatch-hex {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+.color-scale {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.color-scale-item {
+  flex: 1;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  position: relative;
+  cursor: default;
+}
+
+/* ============================================
+   SPACING RULER
+   ============================================ */
+.spacing-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-3) 0;
+}
+
+.spacing-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.spacing-bar {
+  background: rgba(240,165,0,0.25);
+  border: 1px solid rgba(240,165,0,0.4);
+  height: 24px;
+  border-radius: var(--radius-sm);
+}
+
+.spacing-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  width: 80px;
+}
+
+.spacing-value {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  width: 40px;
+  text-align: right;
+}
+
+/* ============================================
+   RADIUS SHOWCASE
+   ============================================ */
+.radius-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.radius-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.radius-box {
+  width: 72px;
+  height: 72px;
+  background: var(--surface-3);
+  border: 2px solid rgba(240,165,0,0.35);
+}
+
+.radius-label {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.radius-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ============================================
+   SHADOW SHOWCASE
+   ============================================ */
+.shadow-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.shadow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.shadow-box {
+  width: 120px;
+  height: 80px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* ============================================
+   COMPONENT DEMO GRID
+   ============================================ */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+
+.demo-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.demo-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-5);
+}
+
+/* ============================================
+   ICON GRID
+   ============================================ */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: var(--space-3);
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.icon-item:hover {
+  background: var(--surface-3);
+  border-color: rgba(240,165,0,0.3);
+}
+
+.icon-item svg {
+  width: 22px;
+  height: 22px;
+  color: var(--text-secondary);
+}
+
+.icon-item:hover svg { color: var(--gold-400); }
+
+.icon-name {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ============================================
+   NOTIFICATION / TOAST
+   ============================================ */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.toast-success { border-color: rgba(34,197,94,0.25); background: rgba(34,197,94,0.07); }
+.toast-success .toast-icon { background: rgba(34,197,94,0.2); color: #4ade80; }
+
+.toast-warning { border-color: rgba(240,165,0,0.25); background: rgba(240,165,0,0.07); }
+.toast-warning .toast-icon { background: rgba(240,165,0,0.2); color: var(--gold-300); }
+
+.toast-error { border-color: rgba(240,48,48,0.25); background: rgba(240,48,48,0.07); }
+.toast-error .toast-icon { background: rgba(240,48,48,0.2); color: #ff6b6b; }
+
+.toast-info { border-color: rgba(59,130,246,0.25); background: rgba(59,130,246,0.07); }
+.toast-info .toast-icon { background: rgba(59,130,246,0.2); color: #60a5fa; }
+
+.toast-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+.toast-desc  { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+/* ============================================
+   TABS
+   ============================================ */
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 3px;
+  width: fit-content;
+}
+
+.tab {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 7px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  border: 1px solid transparent;
+}
+
+.tab:hover { color: var(--text-primary); }
+
+.tab.active {
+  background: var(--surface-3);
+  color: var(--gold-400);
+  border-color: rgba(240,165,0,0.2);
+}
+
+/* ============================================
+   PROGRESS
+   ============================================ */
+.progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+.progress-value { font-size: 13px; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono); }
+
+.progress-track {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s var(--ease-out);
+}
+
+.progress-gold   { background: linear-gradient(90deg, var(--gold-500), var(--gold-300)); }
+.progress-red    { background: linear-gradient(90deg, var(--red-600), var(--red-400)); }
+.progress-blue   { background: linear-gradient(90deg, #1d4ed8, #60a5fa); }
+.progress-green  { background: linear-gradient(90deg, #15803d, #4ade80); }
+
+/* ============================================
+   SWITCH / TOGGLE
+   ============================================ */
+.switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.switch-track {
+  width: 44px;
+  height: 24px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: background var(--duration-fast) var(--ease-out);
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+}
+
+.switch-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--gray-400);
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform var(--duration-base) var(--ease-out), background var(--duration-fast);
+}
+
+.switch.on .switch-track {
+  background: rgba(240,165,0,0.2);
+  border-color: rgba(240,165,0,0.4);
+}
+
+.switch.on .switch-thumb {
+  background: var(--gold-400);
+  transform: translateX(20px);
+}
+
+.switch-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+
+/* ============================================
+   MOTION DEMO
+   ============================================ */
+.motion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.motion-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  cursor: pointer;
+}
+
+.motion-box {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  border-radius: var(--radius-lg);
+}
+
+.motion-ease-out    .motion-box { transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1); }
+.motion-ease-in     .motion-box { transition: transform 400ms cubic-bezier(0.7, 0, 0.84, 0); }
+.motion-ease-spring .motion-box { transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+.motion-ease-linear .motion-box { transition: transform 400ms linear; }
+
+.motion-card:hover .motion-box { transform: translateY(-12px) rotate(6deg) scale(1.1); }
+
+.motion-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.motion-desc {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: var(--space-12) 0;
+  margin-top: var(--space-20);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  transition: color var(--duration-fast);
+}
+
+.footer-links a:hover { color: var(--text-secondary); }
+
+/* ============================================
+   UTILITY
+   ============================================ */
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.items-center { align-items: center; }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+.flex-wrap { flex-wrap: wrap; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+.w-full { width: 100%; }
+.text-mono { font-family: var(--font-mono); }
+.text-gold { color: var(--gold-400); }
+.text-red { color: var(--red-400); }
+.text-muted { color: var(--text-secondary); }
+.text-faint { color: var(--text-tertiary); }
+.font-bold { font-weight: 700; }
+.font-black { font-weight: 900; }
+.divider { height: 1px; background: var(--border); margin: var(--space-5) 0; }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--surface-3);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--gold-300);
+}
+
+/* ============================================
+   SKELETON LOADING
+   ============================================ */
+@keyframes skeletonShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--surface-3) 25%,
+    var(--black-5) 50%,
+    var(--surface-3) 75%);
+  background-size: 800px 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-text   { height: 14px; border-radius: var(--radius-sm); }
+.skeleton-title  { height: 20px; border-radius: var(--radius-sm); }
+.skeleton-avatar { border-radius: var(--radius-full); flex-shrink: 0; }
+.skeleton-img    { border-radius: var(--radius-lg); }
+
+/* ============================================
+   LIST ROWS
+   ============================================ */
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.list-item:last-child { border-bottom: none; }
+.list-item:hover { background: var(--surface-3); }
+
+.list-item-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--surface-3);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.list-item-content { flex: 1; min-width: 0; }
+.list-item-title   { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.list-item-sub     { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+.list-item-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.list-chevron {
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+/* ============================================
+   MOBILE FRAME
+   ============================================ */
+.mobile-frame {
+  width: 280px;
+  background: var(--black-2);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
+
+.mobile-notch {
+  height: 28px;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-notch-pill {
+  width: 80px;
+  height: 10px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+}
+
+.mobile-screen {
+  background: var(--black-2);
+}
+
+.mobile-tabbar {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  background: rgba(10,10,11,0.95);
+  border-top: 1px solid var(--border);
+  padding: 0 8px;
+}
+
+.tabbar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.tabbar-item svg { width: 20px; height: 20px; color: var(--text-tertiary); }
+.tabbar-item span { font-size: 9px; font-weight: 600; color: var(--text-tertiary); letter-spacing: 0.02em; }
+
+.tabbar-item.active svg  { color: var(--gold-400); }
+.tabbar-item.active span { color: var(--gold-400); }
+
+.tabbar-center-btn {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(240,165,0,0.4);
+  flex-shrink: 0;
+}
+
+.tabbar-center-btn svg { width: 20px; height: 20px; color: var(--black); }
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-8);
+  text-align: center;
+}
+
+.empty-icon {
+  width: 72px;
+  height: 72px;
+  background: var(--surface-3);
+  border-radius: var(--radius-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: var(--space-5);
+}
+
+.empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+  max-width: 240px;
+}
+
+/* ============================================
+   SPARKLINE / MINI CHART
+   ============================================ */
+.sparkline-wrap {
+  position: relative;
+  height: 60px;
+}
+
+.sparkline-wrap svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ============================================
+   CODE BLOCK / TOKEN EXPORT
+   ============================================ */
+.code-block {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.code-block-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.code-block-lang {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+}
+
+.code-block-copy {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast);
+}
+
+.code-block-copy:hover { background: var(--surface-3); color: var(--text-secondary); }
+
+.code-block-body {
+  padding: var(--space-5) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.tok-comment { color: var(--gray-600); }
+.tok-key     { color: #C084FC; }
+.tok-str     { color: var(--gold-300); }
+.tok-num     { color: #60A5FA; }
+.tok-prop    { color: #4ADE80; }
+.tok-punct   { color: var(--text-tertiary); }
+
+/* ============================================
+   PRICE TAG
+   ============================================ */
+.price-tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.price-symbol { font-size: 14px; font-weight: 700; color: var(--red-400); font-family: var(--font-mono); }
+.price-main   { font-size: 28px; font-weight: 900; color: var(--red-400); font-family: var(--font-mono); letter-spacing: -0.03em; line-height: 1; }
+.price-sub    { font-size: 14px; font-weight: 700; color: var(--red-400); font-family: var(--font-mono); }
+
+.price-original {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  font-family: var(--font-mono);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-700); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gray-600); }
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-up { animation: fadeUp 0.6s var(--ease-out) both; }
+.animate-fade-up-delay-1 { animation: fadeUp 0.6s 0.1s var(--ease-out) both; }
+.animate-fade-up-delay-2 { animation: fadeUp 0.6s 0.2s var(--ease-out) both; }
+.animate-fade-up-delay-3 { animation: fadeUp 0.6s 0.3s var(--ease-out) both; }
+.animate-fade-up-delay-4 { animation: fadeUp 0.6s 0.4s var(--ease-out) both; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .container { padding: 0 var(--space-5); }
+  .nav-links { display: none; }
+  .hero-stats { gap: var(--space-6); flex-wrap: wrap; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.6rem; }
+  .demo-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: var(--space-4); text-align: center; }
+}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <h1>互联网大厂 GUI 与设计创新专利调研报告</h1>
-  <p>聚焦阿里巴巴、字节跳动、腾讯、拼多多、京东等头部企业，分析设计岗位知识产权申请趋势与机会</p>
-  <div class="meta">调研时间：2024-2026 · 数据来源：CNIPA、WIPO、公开报告 · 生成日期：2026年4月10日</div>
-</div>
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">DW</div>
+      <div>
+        <div class="nav-logo-text">DW Design System</div>
+        <div class="nav-logo-sub">得物设计语言</div>
+      </div>
+    </div>
 
-<nav class="nav-bar">
-  <a href="#overview" class="active">行业概览</a>
-  <a href="#company">企业对比</a>
-  <a href="#patent-type">专利类型</a>
-  <a href="#trend">趋势分析</a>
-  <a href="#opportunity">机会洞察</a>
-  <a href="#action">行动建议</a>
+    <ul class="nav-links">
+      <li><a href="#foundations" class="active">基础</a></li>
+      <li><a href="#typography">字体</a></li>
+      <li><a href="#components">组件</a></li>
+      <li><a href="#patterns">模式</a></li>
+      <li><a href="#motion">动效</a></li>
+      <li><a href="#tokens">令牌</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <span class="nav-version">v2.5.0</span>
+      <button class="btn btn-sm btn-primary">开始使用</button>
+    </div>
+  </div>
 </nav>
 
-<div class="container">
 
-  <!-- ============ 行业概览 ============ -->
-  <div class="section" id="overview">
-    <div class="section-title"><span class="icon">📊</span> 行业概览</div>
-    <p class="section-desc">中国 GUI 外观设计专利保护制度自2014年启动以来快速发展，已成为互联网企业设计竞争力的重要指标。</p>
+<!-- ============================================
+     HERO
+     ============================================ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge animate-fade-up">
+      <span class="hero-badge-dot"></span>
+      Design System 2.5 · 全新发布
+    </div>
+    <h1 class="hero-title animate-fade-up-delay-1">
+      构建<em>极致</em>体验<br>的设计语言
+    </h1>
+    <p class="hero-sub animate-fade-up-delay-2">
+      得物设计系统为产品团队提供统一的设计语言、可复用组件库与清晰的设计原则，帮助你快速构建高质量、一致的用户体验。
+    </p>
+    <div class="hero-actions animate-fade-up-delay-3">
+      <button class="btn btn-lg btn-primary">快速开始</button>
+      <button class="btn btn-lg btn-secondary">查看 Figma</button>
+      <button class="btn btn-lg btn-ghost">GitHub ↗</button>
+    </div>
+
+    <div class="hero-stats animate-fade-up-delay-4">
+      <div class="stat-item">
+        <div class="stat-number text-gold">120+</div>
+        <div class="stat-label">设计组件</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">48</div>
+        <div class="stat-label">颜色令牌</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">12</div>
+        <div class="stat-label">字体等级</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number text-gold">∞</div>
+        <div class="stat-label">可扩展性</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     FOUNDATIONS — COLOR
+     ============================================ -->
+<section class="section" id="foundations">
+  <div class="container">
+    <div class="section-label">Foundations · 基础</div>
+    <h2 class="section-title">色彩系统</h2>
+    <p class="section-desc">基于品牌核心色「锻金」构建的多层次调色板，涵盖语义色、中性色与功能色，确保界面层级清晰。</p>
+
+    <!-- Brand scale -->
+    <div style="margin-bottom: var(--space-8)">
+      <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:var(--space-4);">Brand · 品牌金</div>
+      <div class="color-scale">
+        <div class="color-scale-item" style="background:#FFF9E6;" title="Gold 50"></div>
+        <div class="color-scale-item" style="background:#FFECB3;" title="Gold 100"></div>
+        <div class="color-scale-item" style="background:#FFD97D;" title="Gold 200"></div>
+        <div class="color-scale-item" style="background:#FFC63D;" title="Gold 300"></div>
+        <div class="color-scale-item" style="background:#FFB800;" title="Gold 400"></div>
+        <div class="color-scale-item" style="background:#F0A500;" title="Gold 500"></div>
+        <div class="color-scale-item" style="background:#CC8C00;" title="Gold 600"></div>
+        <div class="color-scale-item" style="background:#9A6900;" title="Gold 700"></div>
+        <div class="color-scale-item" style="background:#704C00;" title="Gold 800"></div>
+        <div class="color-scale-item" style="background:#3D2900;" title="Gold 900"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">50</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">100</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">200</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">300</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">400</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">500</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">600</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">700</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">800</span>
+        <span style="font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);">900</span>
+      </div>
+    </div>
+
+    <!-- Neutral scale -->
+    <div style="margin-bottom: var(--space-10)">
+      <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:var(--space-4);">Neutral · 中性色</div>
+      <div class="color-scale">
+        <div class="color-scale-item" style="background:#0A0A0B;border:1px solid var(--border);" title="Black"></div>
+        <div class="color-scale-item" style="background:#111114;border:1px solid var(--border);" title="Black-2"></div>
+        <div class="color-scale-item" style="background:#1A1A1F;" title="Black-3"></div>
+        <div class="color-scale-item" style="background:#222229;" title="Black-4"></div>
+        <div class="color-scale-item" style="background:#2C2C35;" title="Black-5"></div>
+        <div class="color-scale-item" style="background:#38383F;" title="Gray-700"></div>
+        <div class="color-scale-item" style="background:#505058;" title="Gray-600"></div>
+        <div class="color-scale-item" style="background:#707078;" title="Gray-500"></div>
+        <div class="color-scale-item" style="background:#A0A0A8;" title="Gray-400"></div>
+        <div class="color-scale-item" style="background:#FFFFFF;border:1px solid var(--border);" title="White"></div>
+      </div>
+    </div>
+
+    <!-- Semantic colors -->
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-swatch-preview" style="background:var(--gold-400);"></div>
+        <div class="color-swatch-info">
+          <div class="color-swatch-name">Gold / 品牌金</div>
+          <div class="color-swatch-hex">#FFB800</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-preview" style="background:var(--red-500);"></div>
+        <div class="color-swatch-info">
+          <div class="color-swatch-name">Red / 警示红</div>
+          <div class="color-swatch-hex">#F03030</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-preview" style="background:#22C55E;"></div>
+        <div class="color-swatch-info">
+          <div class="color-swatch-name">Green / 成功绿</div>
+          <div class="color-swatch-hex">#22C55E</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-preview" style="background:#3B82F6;"></div>
+        <div class="color-swatch-info">
+          <div class="color-swatch-name">Blue / 信息蓝</div>
+          <div class="color-swatch-hex">#3B82F6</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-preview" style="background:#A855F7;"></div>
+        <div class="color-swatch-info">
+          <div class="color-swatch-name">Purple / 装饰紫</div>
+          <div class="color-swatch-hex">#A855F7</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-preview" style="background:var(--surface-2);border-bottom:1px solid var(--border);"></div>
+        <div class="color-swatch-info">
+          <div class="color-swatch-name">Surface / 容器底色</div>
+          <div class="color-swatch-hex">#1E1E26</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     FOUNDATIONS — TYPOGRAPHY
+     ============================================ -->
+<section class="section" id="typography">
+  <div class="container">
+    <div class="section-label">Foundations · 基础</div>
+    <h2 class="section-title">字体系统</h2>
+    <p class="section-desc">采用系统原生字体栈，确保跨平台渲染清晰，兼顾中文排版美感与英文辨识度。字重从 400 到 900 共六档。</p>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">Display</div>
+            <div class="type-meta-size">64px · 900</div>
+          </div>
+          <div class="type-sample" style="font-size:64px;font-weight:900;letter-spacing:-0.04em;line-height:1;">品质</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">H1</div>
+            <div class="type-meta-size">48px · 800</div>
+          </div>
+          <div class="type-sample" style="font-size:48px;font-weight:800;letter-spacing:-0.035em;line-height:1.1;">先验后买</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">H2</div>
+            <div class="type-meta-size">36px · 700</div>
+          </div>
+          <div class="type-sample" style="font-size:36px;font-weight:700;letter-spacing:-0.025em;">潮流文化社区</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">H3</div>
+            <div class="type-meta-size">28px · 700</div>
+          </div>
+          <div class="type-sample" style="font-size:28px;font-weight:700;letter-spacing:-0.02em;">Air Jordan 1 Retro High OG</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">H4</div>
+            <div class="type-meta-size">22px · 600</div>
+          </div>
+          <div class="type-sample" style="font-size:22px;font-weight:600;letter-spacing:-0.01em;">正品鉴定 · 极速发货</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">Body LG</div>
+            <div class="type-meta-size">17px · 400</div>
+          </div>
+          <div class="type-sample" style="font-size:17px;font-weight:400;color:var(--text-secondary);">专注于为用户提供正品保障与独特潮流体验，每一件商品都经过专业鉴定师的严格审核。</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">Body MD</div>
+            <div class="type-meta-size">15px · 400</div>
+          </div>
+          <div class="type-sample" style="font-size:15px;font-weight:400;color:var(--text-secondary);">我们相信每一位买家都有权获得可信赖的购物体验，安全、透明、快速是我们的承诺。</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">Caption</div>
+            <div class="type-meta-size">12px · 400</div>
+          </div>
+          <div class="type-sample" style="font-size:12px;color:var(--text-tertiary);">商品编号 · 更新于 2026-05-15 · 仅供参考</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-meta-name">Mono</div>
+            <div class="type-meta-size">14px · mono</div>
+          </div>
+          <div class="type-sample text-mono text-gold" style="font-size:14px;">¥ 1,299.00 · #SKU-AJ1-002</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     FOUNDATIONS — SPACING & RADIUS
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2">
+      <!-- Spacing -->
+      <div>
+        <div class="section-label">Foundations · 基础</div>
+        <h2 class="section-title" style="font-size:1.5rem;">间距系统</h2>
+        <p class="section-desc" style="font-size:14px;margin-bottom:var(--space-6);">以 4px 为基础单位，构建统一的间距令牌，从 xs 到 3xl 共 10 档。</p>
+
+        <div class="card">
+          <div class="card-body" style="padding:var(--space-5);">
+            <div class="spacing-row">
+              <div class="spacing-name">space-1</div>
+              <div class="spacing-bar-wrap">
+                <div class="spacing-bar" style="width:4px;"></div>
+              </div>
+              <div class="spacing-value">4px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-2</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px;"></div></div>
+              <div class="spacing-value">8px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-3</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px;"></div></div>
+              <div class="spacing-value">12px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-4</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px;"></div></div>
+              <div class="spacing-value">16px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-6</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px;"></div></div>
+              <div class="spacing-value">24px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-8</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px;"></div></div>
+              <div class="spacing-value">32px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-10</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:40px;"></div></div>
+              <div class="spacing-value">40px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-12</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48px;"></div></div>
+              <div class="spacing-value">48px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-16</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64px;"></div></div>
+              <div class="spacing-value">64px</div>
+            </div>
+            <div class="spacing-row">
+              <div class="spacing-name">space-20</div>
+              <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:80px;"></div></div>
+              <div class="spacing-value">80px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radius & Shadows -->
+      <div>
+        <div class="section-label" style="opacity:0;">—</div>
+        <h2 class="section-title" style="font-size:1.5rem;">圆角 & 阴影</h2>
+        <p class="section-desc" style="font-size:14px;margin-bottom:var(--space-6);">六档圆角令牌与四级阴影，塑造层次感与空间深度。</p>
+
+        <div class="card" style="margin-bottom:var(--space-5);">
+          <div class="card-body" style="padding:var(--space-5);">
+            <div style="font-size:12px;font-weight:700;color:var(--text-tertiary);margin-bottom:var(--space-4);text-transform:uppercase;letter-spacing:0.08em;">Border Radius</div>
+            <div class="radius-grid">
+              <div class="radius-item">
+                <div class="radius-box" style="border-radius:4px;"></div>
+                <div class="radius-name">SM</div>
+                <div class="radius-label">4px</div>
+              </div>
+              <div class="radius-item">
+                <div class="radius-box" style="border-radius:8px;"></div>
+                <div class="radius-name">MD</div>
+                <div class="radius-label">8px</div>
+              </div>
+              <div class="radius-item">
+                <div class="radius-box" style="border-radius:12px;"></div>
+                <div class="radius-name">LG</div>
+                <div class="radius-label">12px</div>
+              </div>
+              <div class="radius-item">
+                <div class="radius-box" style="border-radius:16px;"></div>
+                <div class="radius-name">XL</div>
+                <div class="radius-label">16px</div>
+              </div>
+              <div class="radius-item">
+                <div class="radius-box" style="border-radius:24px;"></div>
+                <div class="radius-name">2XL</div>
+                <div class="radius-label">24px</div>
+              </div>
+              <div class="radius-item">
+                <div class="radius-box" style="border-radius:9999px;"></div>
+                <div class="radius-name">Full</div>
+                <div class="radius-label">∞</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="padding:var(--space-5);">
+            <div style="font-size:12px;font-weight:700;color:var(--text-tertiary);margin-bottom:var(--space-4);text-transform:uppercase;letter-spacing:0.08em;">Shadows</div>
+            <div class="shadow-grid">
+              <div class="shadow-item">
+                <div class="shadow-box" style="box-shadow:0 1px 3px rgba(0,0,0,0.4);">SM</div>
+                <div class="radius-label">shadow-sm</div>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-box" style="box-shadow:0 4px 16px rgba(0,0,0,0.5);">MD</div>
+                <div class="radius-label">shadow-md</div>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-box" style="box-shadow:0 8px 32px rgba(0,0,0,0.6);">LG</div>
+                <div class="radius-label">shadow-lg</div>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-box" style="box-shadow:0 0 24px rgba(240,165,0,0.25);border-color:rgba(240,165,0,0.2);">
+                  <span style="color:var(--gold-400);">Gold</span>
+                </div>
+                <div class="radius-label">shadow-gold</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     COMPONENTS — BUTTONS
+     ============================================ -->
+<section class="section" id="components">
+  <div class="container">
+    <div class="section-label">Components · 组件</div>
+    <h2 class="section-title">按钮</h2>
+    <p class="section-desc">五种变体、五种尺寸，覆盖从主操作到辅助操作的全场景需求。</p>
+
+    <div class="demo-grid">
+      <!-- Variants -->
+      <div class="demo-panel">
+        <div class="demo-panel-title">变体 · Variants</div>
+        <div class="flex flex-wrap gap-3">
+          <button class="btn btn-md btn-primary">Primary</button>
+          <button class="btn btn-md btn-secondary">Secondary</button>
+          <button class="btn btn-md btn-outline">Outline</button>
+          <button class="btn btn-md btn-ghost">Ghost</button>
+          <button class="btn btn-md btn-danger">Danger</button>
+        </div>
+      </div>
+
+      <!-- Sizes -->
+      <div class="demo-panel">
+        <div class="demo-panel-title">尺寸 · Sizes</div>
+        <div class="flex items-center flex-wrap gap-3">
+          <button class="btn btn-xs btn-primary">XS</button>
+          <button class="btn btn-sm btn-primary">Small</button>
+          <button class="btn btn-md btn-primary">Medium</button>
+          <button class="btn btn-lg btn-primary">Large</button>
+          <button class="btn btn-xl btn-primary">XL</button>
+        </div>
+      </div>
+
+      <!-- With Icons -->
+      <div class="demo-panel">
+        <div class="demo-panel-title">图标按钮 · With Icons</div>
+        <div class="flex items-center flex-wrap gap-3">
+          <button class="btn btn-md btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            下载
+          </button>
+          <button class="btn btn-md btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            搜索
+          </button>
+          <button class="btn btn-md btn-icon btn-secondary" title="设置">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+          </button>
+          <button class="btn btn-md btn-icon btn-primary" title="添加">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- States -->
+      <div class="demo-panel">
+        <div class="demo-panel-title">状态 · States</div>
+        <div class="flex items-center flex-wrap gap-3">
+          <button class="btn btn-md btn-primary">正常</button>
+          <button class="btn btn-md btn-primary" style="opacity:0.45;cursor:not-allowed;" disabled>禁用</button>
+          <button class="btn btn-md btn-primary" style="transform:scale(0.97);">按下</button>
+          <button class="btn btn-md btn-secondary" style="border-color:var(--gold-400);color:var(--gold-400);">激活</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     COMPONENTS — BADGES & TAGS
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2">
+      <div>
+        <div class="section-label">Components · 组件</div>
+        <h2 class="section-title" style="font-size:1.5rem;">徽章 & 标签</h2>
+        <p class="section-desc" style="font-size:14px;margin-bottom:var(--space-6);">用于状态标注、品类过滤与内容分类的轻量化 UI 元素。</p>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="demo-panel-title">徽章 · Badge</div>
+            <div class="flex flex-wrap gap-3">
+              <span class="badge badge-gold">New</span>
+              <span class="badge badge-red">限量</span>
+              <span class="badge badge-green">正品</span>
+              <span class="badge badge-blue">官方</span>
+              <span class="badge badge-purple">联名</span>
+              <span class="badge badge-neutral">已下架</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="demo-panel-title">标签 · Tag</div>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag tag-active">全部</span>
+              <span class="tag tag-default">球鞋</span>
+              <span class="tag tag-default">运动</span>
+              <span class="tag tag-default">潮流</span>
+              <span class="tag tag-default">奢侈品</span>
+              <span class="tag tag-default">数码</span>
+              <span class="tag tag-default">美妆</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="opacity:0;">—</div>
+        <h2 class="section-title" style="font-size:1.5rem;">头像</h2>
+        <p class="section-desc" style="font-size:14px;margin-bottom:var(--space-6);">尺寸从 XS 到 XL，支持彩色变体与头像组堆叠。</p>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="demo-panel-title">尺寸 · Sizes</div>
+            <div class="flex items-center gap-4">
+              <div class="avatar avatar-xs avatar-gold">DW</div>
+              <div class="avatar avatar-sm avatar-red">李</div>
+              <div class="avatar avatar-md avatar-blue">王</div>
+              <div class="avatar avatar-lg avatar-gold">张</div>
+              <div class="avatar avatar-xl">赵</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="demo-panel-title">头像组 · Avatar Stack</div>
+            <div class="avatar-stack">
+              <div class="avatar avatar-md avatar-gold">A</div>
+              <div class="avatar avatar-md avatar-red">B</div>
+              <div class="avatar avatar-md avatar-blue">C</div>
+              <div class="avatar avatar-md">D</div>
+              <div class="avatar avatar-md" style="background:var(--surface-3);color:var(--text-secondary);font-size:11px;font-weight:700;">+8</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     COMPONENTS — INPUTS
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Components · 组件</div>
+    <h2 class="section-title">输入控件</h2>
+    <p class="section-desc">支持多种状态与尺寸，统一的焦点动效与验证反馈，降低填写负担。</p>
+
+    <div class="demo-grid">
+      <div class="demo-panel">
+        <div class="demo-panel-title">基础输入 · Input</div>
+        <div class="flex" style="flex-direction:column;gap:var(--space-4);">
+          <div class="input-wrap">
+            <label class="input-label">商品名称</label>
+            <input class="input" type="text" placeholder="搜索正品球鞋、潮牌…">
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">当前价格</label>
+            <input class="input" type="text" value="¥ 1,299" style="font-family:var(--font-mono);color:var(--gold-300);">
+            <span class="input-hint">当前市场最低价</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-panel">
+        <div class="demo-panel-title">搜索输入 · Search</div>
+        <div class="flex" style="flex-direction:column;gap:var(--space-4);">
+          <div class="input-wrap" style="position:relative;">
+            <label class="input-label">全站搜索</label>
+            <div style="position:relative;">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input class="input input-search" type="text" placeholder="搜索商品、品牌、话题…">
+            </div>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">错误状态</label>
+            <input class="input input-error" type="text" value="错误的邮箱地址">
+            <span class="input-hint error">请输入有效的邮箱地址</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-panel">
+        <div class="demo-panel-title">开关 & 进度 · Toggle & Progress</div>
+        <div class="flex" style="flex-direction:column;gap:var(--space-5);">
+          <div class="switch on" onclick="this.classList.toggle('on')">
+            <div class="switch-track"><div class="switch-thumb"></div></div>
+            <span class="switch-label">正品验证提醒</span>
+          </div>
+          <div class="switch" onclick="this.classList.toggle('on')">
+            <div class="switch-track"><div class="switch-thumb"></div></div>
+            <span class="switch-label">价格波动通知</span>
+          </div>
+          <div class="switch on" onclick="this.classList.toggle('on')">
+            <div class="switch-track"><div class="switch-thumb"></div></div>
+            <span class="switch-label">到手价显示</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-panel">
+        <div class="demo-panel-title">Tabs 选项卡</div>
+        <div class="flex" style="flex-direction:column;gap:var(--space-5);">
+          <div class="tabs">
+            <div class="tab active" onclick="setTab(this)">出售中</div>
+            <div class="tab" onclick="setTab(this)">已售出</div>
+            <div class="tab" onclick="setTab(this)">求购</div>
+          </div>
+          <div class="tabs">
+            <div class="tab active" onclick="setTab(this)">全部</div>
+            <div class="tab" onclick="setTab(this)">在途</div>
+            <div class="tab" onclick="setTab(this)">已完成</div>
+            <div class="tab" onclick="setTab(this)">退款</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     COMPONENTS — PROGRESS
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2">
+      <div>
+        <div class="section-label">Components · 组件</div>
+        <h2 class="section-title" style="font-size:1.5rem;">进度条</h2>
+        <p class="section-desc" style="font-size:14px;margin-bottom:var(--space-6);">展示任务完成度、加载进度或数据比例，四种色系对应不同语义。</p>
+
+        <div class="card">
+          <div class="card-body" style="display:flex;flex-direction:column;gap:var(--space-5);">
+            <div class="progress-wrap">
+              <div class="progress-header">
+                <span class="progress-label">鉴定完成</span>
+                <span class="progress-value">87%</span>
+              </div>
+              <div class="progress-track"><div class="progress-bar progress-gold" style="width:87%;"></div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-header">
+                <span class="progress-label">发货进度</span>
+                <span class="progress-value">62%</span>
+              </div>
+              <div class="progress-track"><div class="progress-bar progress-blue" style="width:62%;"></div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-header">
+                <span class="progress-label">好评率</span>
+                <span class="progress-value">99%</span>
+              </div>
+              <div class="progress-track"><div class="progress-bar progress-green" style="width:99%;"></div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-header">
+                <span class="progress-label">退款处理</span>
+                <span class="progress-value">35%</span>
+              </div>
+              <div class="progress-track"><div class="progress-bar progress-red" style="width:35%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="opacity:0;">—</div>
+        <h2 class="section-title" style="font-size:1.5rem;">通知提示</h2>
+        <p class="section-desc" style="font-size:14px;margin-bottom:var(--space-6);">四种语义化通知，统一反馈用户操作结果或系统状态变化。</p>
+
+        <div class="flex" style="flex-direction:column;gap:var(--space-3);">
+          <div class="toast toast-success">
+            <div class="toast-icon">✓</div>
+            <div>
+              <div class="toast-title">鉴定通过</div>
+              <div class="toast-desc">Air Jordan 1 已通过官方正品鉴定，即将发货</div>
+            </div>
+          </div>
+          <div class="toast toast-warning">
+            <div class="toast-icon">!</div>
+            <div>
+              <div class="toast-title">价格波动提醒</div>
+              <div class="toast-desc">您关注的商品价格在过去 24 小时内上涨了 5%</div>
+            </div>
+          </div>
+          <div class="toast toast-error">
+            <div class="toast-icon">✕</div>
+            <div>
+              <div class="toast-title">支付失败</div>
+              <div class="toast-desc">银行卡余额不足，请更换支付方式后重试</div>
+            </div>
+          </div>
+          <div class="toast toast-info">
+            <div class="toast-icon">i</div>
+            <div>
+              <div class="toast-title">专属活动</div>
+              <div class="toast-desc">您有一张满减券即将过期，快去使用吧</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     PATTERNS — PRODUCT CARDS
+     ============================================ -->
+<section class="section" id="patterns">
+  <div class="container">
+    <div class="section-label">Patterns · 模式</div>
+    <h2 class="section-title">商品卡片</h2>
+    <p class="section-desc">核心内容展示单元，承载图片、品名、价格与鉴定标志，悬停时以微动效增强反馈。</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-4);">
+      <div class="product-card">
+        <div class="product-card-img">
+          <span class="product-card-badge"><span class="badge badge-red">限量</span></span>
+          👟
+        </div>
+        <div class="product-card-info">
+          <div class="product-card-name">Air Jordan 1 Retro High OG</div>
+          <div class="product-card-sub">US 10 · 黑红配色</div>
+          <div class="product-card-price">¥1,299</div>
+          <div class="product-card-price-label">含鉴定费</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-img" style="background:var(--surface-3);">
+          <span class="product-card-badge"><span class="badge badge-gold">New</span></span>
+          👠
+        </div>
+        <div class="product-card-info">
+          <div class="product-card-name">Adidas Yeezy Boost 350 V2</div>
+          <div class="product-card-sub">US 9 · Zebra</div>
+          <div class="product-card-price">¥2,199</div>
+          <div class="product-card-price-label">含鉴定费</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-img" style="background:#1a1a2e;">
+          <span class="product-card-badge"><span class="badge badge-purple">联名</span></span>
+          👜
+        </div>
+        <div class="product-card-info">
+          <div class="product-card-name">Supreme × LV 联名托特包</div>
+          <div class="product-card-sub">帆布 · 红色</div>
+          <div class="product-card-price">¥8,900</div>
+          <div class="product-card-price-label">含鉴定费</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-img" style="background:#1a2030;">
+          <span class="product-card-badge"><span class="badge badge-green">正品</span></span>
+          ⌚
+        </div>
+        <div class="product-card-info">
+          <div class="product-card-name">Apple Watch Ultra 2</div>
+          <div class="product-card-sub">49mm · 钛金属</div>
+          <div class="product-card-price">¥6,499</div>
+          <div class="product-card-price-label">含鉴定费</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-img" style="background:#2a1a30;">
+          <span class="product-card-badge"><span class="badge badge-blue">官方</span></span>
+          💄
+        </div>
+        <div class="product-card-info">
+          <div class="product-card-name">Dior 999 经典红唇膏</div>
+          <div class="product-card-sub">Rouge Dior · 正装</div>
+          <div class="product-card-price">¥399</div>
+          <div class="product-card-price-label">含鉴定费</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-img" style="background:#1a2520;">
+          👒
+        </div>
+        <div class="product-card-info">
+          <div class="product-card-name">New Era 9FIFTY 可调节帽</div>
+          <div class="product-card-sub">LA · 黑白配色</div>
+          <div class="product-card-price">¥299</div>
+          <div class="product-card-price-label">含鉴定费</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     ICONS
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Components · 组件</div>
+    <h2 class="section-title">图标系统</h2>
+    <p class="section-desc">基于 24×24 网格设计，2px 描边风格，涵盖导航、操作、状态等场景。</p>
+
+    <div class="icon-grid">
+      <!-- Home -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="icon-name">首页</span>
+      </div>
+      <!-- Search -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="icon-name">搜索</span>
+      </div>
+      <!-- Cart -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="icon-name">购物车</span>
+      </div>
+      <!-- Heart -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="icon-name">收藏</span>
+      </div>
+      <!-- User -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="icon-name">我的</span>
+      </div>
+      <!-- Bell -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="icon-name">通知</span>
+      </div>
+      <!-- Star -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span class="icon-name">评价</span>
+      </div>
+      <!-- Shield -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="icon-name">鉴定</span>
+      </div>
+      <!-- Package -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        <span class="icon-name">包裹</span>
+      </div>
+      <!-- Settings -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="icon-name">设置</span>
+      </div>
+      <!-- Map Pin -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span class="icon-name">地址</span>
+      </div>
+      <!-- Share -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="icon-name">分享</span>
+      </div>
+      <!-- Camera -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span class="icon-name">拍摄</span>
+      </div>
+      <!-- Wallet -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+        <span class="icon-name">钱包</span>
+      </div>
+      <!-- Trending -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        <span class="icon-name">涨价</span>
+      </div>
+      <!-- Tag -->
+      <div class="icon-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        <span class="icon-name">标价</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     MOTION
+     ============================================ -->
+<section class="section" id="motion">
+  <div class="container">
+    <div class="section-label">Motion · 动效</div>
+    <h2 class="section-title">运动曲线</h2>
+    <p class="section-desc">四种内置缓动曲线，覆盖从轻快反馈到流畅过渡的全场景动效需求。悬停卡片预览效果。</p>
+
+    <div class="motion-grid">
+      <div class="motion-card motion-ease-out">
+        <div class="motion-box"></div>
+        <div>
+          <div class="motion-name">Ease Out</div>
+          <div class="motion-desc code" style="font-size:10px;">cubic-bezier(0.16, 1, 0.3, 1)</div>
+          <div class="motion-desc mt-2">快进慢出，自然减速<br>适用于元素入场</div>
+        </div>
+      </div>
+      <div class="motion-card motion-ease-in">
+        <div class="motion-box"></div>
+        <div>
+          <div class="motion-name">Ease In</div>
+          <div class="motion-desc code" style="font-size:10px;">cubic-bezier(0.7, 0, 0.84, 0)</div>
+          <div class="motion-desc mt-2">慢进快出，加速消失<br>适用于元素退场</div>
+        </div>
+      </div>
+      <div class="motion-card motion-ease-spring">
+        <div class="motion-box"></div>
+        <div>
+          <div class="motion-name">Spring</div>
+          <div class="motion-desc code" style="font-size:10px;">cubic-bezier(0.34, 1.56, 0.64, 1)</div>
+          <div class="motion-desc mt-2">弹性回弹感<br>适用于强调交互</div>
+        </div>
+      </div>
+      <div class="motion-card motion-ease-linear">
+        <div class="motion-box"></div>
+        <div>
+          <div class="motion-name">Linear</div>
+          <div class="motion-desc code" style="font-size:10px;">linear</div>
+          <div class="motion-desc mt-2">匀速运动<br>适用于加载动画</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Duration tokens -->
+    <div class="card mt-8">
+      <div class="card-header">
+        <div class="demo-panel-title">时长令牌 · Duration Tokens</div>
+      </div>
+      <div class="card-body">
+        <div class="flex flex-wrap gap-4">
+          <div style="text-align:center;">
+            <div style="width:60px;height:6px;background:rgba(240,165,0,0.4);border-radius:3px;margin-bottom:8px;"></div>
+            <div class="text-mono" style="font-size:13px;color:var(--gold-400);">150ms</div>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px;">fast</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:100px;height:6px;background:rgba(240,165,0,0.5);border-radius:3px;margin-bottom:8px;"></div>
+            <div class="text-mono" style="font-size:13px;color:var(--gold-400);">250ms</div>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px;">base</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:160px;height:6px;background:rgba(240,165,0,0.6);border-radius:3px;margin-bottom:8px;"></div>
+            <div class="text-mono" style="font-size:13px;color:var(--gold-400);">400ms</div>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px;">slow</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:240px;height:6px;background:rgba(240,165,0,0.7);border-radius:3px;margin-bottom:8px;max-width:100%;"></div>
+            <div class="text-mono" style="font-size:13px;color:var(--gold-400);">600ms</div>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px;">slower</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     PATTERNS — LIST ROWS
+     ============================================ -->
+<section class="section" id="list-patterns">
+  <div class="container">
+    <div class="section-label">Patterns · 模式</div>
+    <h2 class="section-title">列表与设置行</h2>
+    <p class="section-desc">通用列表单元，覆盖导航入口、设置项、订单列表等高频场景，统一触摸区域与间距节奏。</p>
+
+    <div class="grid-2">
+      <!-- Order list -->
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-3);">订单列表</div>
+        <div class="card">
+          <div class="list-item">
+            <div class="list-item-icon" style="background:rgba(240,165,0,0.1);">👟</div>
+            <div class="list-item-content">
+              <div class="list-item-title">Air Jordan 1 Retro High OG</div>
+              <div class="list-item-sub">鉴定中 · 预计 24h 内完成</div>
+            </div>
+            <div class="list-item-right">
+              <span class="badge badge-gold">鉴定中</span>
+              <span class="list-chevron">›</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-icon" style="background:rgba(34,197,94,0.1);">👜</div>
+            <div class="list-item-content">
+              <div class="list-item-title">Supreme Box Logo Tee</div>
+              <div class="list-item-sub">已发货 · 顺丰快递 SF1234567</div>
+            </div>
+            <div class="list-item-right">
+              <span class="badge badge-green">已发货</span>
+              <span class="list-chevron">›</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-icon" style="background:rgba(59,130,246,0.1);">⌚</div>
+            <div class="list-item-content">
+              <div class="list-item-title">Apple Watch Ultra 2</div>
+              <div class="list-item-sub">已完成 · 2026-05-10</div>
+            </div>
+            <div class="list-item-right">
+              <span class="badge badge-neutral">已完成</span>
+              <span class="list-chevron">›</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-icon" style="background:rgba(240,48,48,0.1);">💄</div>
+            <div class="list-item-content">
+              <div class="list-item-title">Dior 999 经典红唇膏</div>
+              <div class="list-item-sub">退款处理中 · 等待商家确认</div>
+            </div>
+            <div class="list-item-right">
+              <span class="badge badge-red">退款中</span>
+              <span class="list-chevron">›</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings list -->
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-3);">设置入口</div>
+        <div class="card">
+          <div class="list-item">
+            <div class="list-item-icon">🔔</div>
+            <div class="list-item-content">
+              <div class="list-item-title">消息通知</div>
+              <div class="list-item-sub">价格波动、订单状态提醒</div>
+            </div>
+            <div class="list-item-right">
+              <div class="switch on" style="gap:0;" onclick="this.classList.toggle('on')">
+                <div class="switch-track"><div class="switch-thumb"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-icon">🔒</div>
+            <div class="list-item-content">
+              <div class="list-item-title">隐私与安全</div>
+              <div class="list-item-sub">账号保护、登录记录</div>
+            </div>
+            <div class="list-item-right"><span class="list-chevron">›</span></div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-icon">💳</div>
+            <div class="list-item-content">
+              <div class="list-item-title">支付方式</div>
+              <div class="list-item-sub">已绑定 3 张银行卡</div>
+            </div>
+            <div class="list-item-right"><span class="list-chevron">›</span></div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-icon">📍</div>
+            <div class="list-item-content">
+              <div class="list-item-title">收货地址</div>
+              <div class="list-item-sub">上海市浦东新区 2 个地址</div>
+            </div>
+            <div class="list-item-right"><span class="list-chevron">›</span></div>
+          </div>
+          <div class="list-item" style="border:none;">
+            <div class="list-item-icon">🌙</div>
+            <div class="list-item-content">
+              <div class="list-item-title">深色模式</div>
+              <div class="list-item-sub">跟随系统</div>
+            </div>
+            <div class="list-item-right">
+              <div class="switch on" style="gap:0;" onclick="this.classList.toggle('on')">
+                <div class="switch-track"><div class="switch-thumb"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     PATTERNS — MOBILE FRAMES
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Patterns · 模式</div>
+    <h2 class="section-title">移动端界面预览</h2>
+    <p class="section-desc">核心页面布局与底部导航结构，展示组件在真实移动端场景中的组合方式。</p>
+
+    <div class="flex gap-8 flex-wrap">
+
+      <!-- Frame 1: 首页 -->
+      <div class="mobile-frame">
+        <div class="mobile-notch"><div class="mobile-notch-pill"></div></div>
+        <div class="mobile-screen">
+          <!-- search bar -->
+          <div style="padding:12px 16px 8px;">
+            <div style="background:var(--surface-3);border-radius:20px;height:36px;display:flex;align-items:center;padding:0 14px;gap:8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <span style="font-size:12px;color:var(--text-tertiary);">搜索正品球鞋、潮牌…</span>
+            </div>
+          </div>
+          <!-- banner -->
+          <div style="margin:0 16px;background:linear-gradient(135deg,#1a1a0a,#2a2000);border-radius:14px;height:110px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:relative;overflow:hidden;">
+            <div style="position:absolute;right:-10px;top:-10px;width:120px;height:120px;background:radial-gradient(circle,rgba(240,165,0,0.2),transparent);border-radius:50%;"></div>
+            <div>
+              <div style="font-size:10px;color:var(--gold-300);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">限时闪购</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;letter-spacing:-0.02em;">AJ1 黑红</div>
+              <div style="font-size:11px;color:var(--text-secondary);margin-top:3px;">正品保障 · 极速发货</div>
+            </div>
+            <div style="font-size:40px;">👟</div>
+          </div>
+          <!-- tags -->
+          <div style="display:flex;gap:8px;padding:12px 16px 8px;overflow-x:auto;">
+            <span class="tag tag-active" style="font-size:11px;padding:4px 10px;white-space:nowrap;">全部</span>
+            <span class="tag tag-default" style="font-size:11px;padding:4px 10px;white-space:nowrap;">球鞋</span>
+            <span class="tag tag-default" style="font-size:11px;padding:4px 10px;white-space:nowrap;">运动</span>
+            <span class="tag tag-default" style="font-size:11px;padding:4px 10px;white-space:nowrap;">奢侈品</span>
+          </div>
+          <!-- product grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 12px;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+              <div style="height:80px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:28px;">👟</div>
+              <div style="padding:8px;">
+                <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">AJ1 黑红</div>
+                <div style="font-size:14px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥1,299</div>
+              </div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+              <div style="height:80px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:28px;">👜</div>
+              <div style="padding:8px;">
+                <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Sup Logo Tee</div>
+                <div style="font-size:14px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥899</div>
+              </div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+              <div style="height:80px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:28px;">⌚</div>
+              <div style="padding:8px;">
+                <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">AW Ultra 2</div>
+                <div style="font-size:14px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥6,499</div>
+              </div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+              <div style="height:80px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:28px;">💄</div>
+              <div style="padding:8px;">
+                <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Dior 999</div>
+                <div style="font-size:14px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥399</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-tabbar">
+          <div class="tabbar-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>首页</span>
+          </div>
+          <div class="tabbar-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>探索</span>
+          </div>
+          <div class="tabbar-center-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="tabbar-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>购物袋</span>
+          </div>
+          <div class="tabbar-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>我的</span>
+          </div>
+        </div>
+        <div style="height:8px;background:var(--black-2);display:flex;align-items:center;justify-content:center;">
+          <div style="width:80px;height:3px;background:var(--border-strong);border-radius:2px;"></div>
+        </div>
+      </div>
+
+      <!-- Frame 2: 商品详情 -->
+      <div class="mobile-frame">
+        <div class="mobile-notch"><div class="mobile-notch-pill"></div></div>
+        <div class="mobile-screen">
+          <!-- product image -->
+          <div style="height:200px;background:linear-gradient(160deg,var(--surface-2),var(--black-3));display:flex;align-items:center;justify-content:center;font-size:72px;position:relative;">
+            <span style="position:absolute;top:12px;left:12px;" class="badge badge-red">限量</span>
+            👟
+          </div>
+          <!-- info -->
+          <div style="padding:14px 16px 0;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
+              <div>
+                <div class="price-tag">
+                  <span class="price-symbol">¥</span>
+                  <span class="price-main" style="font-size:24px;">1,299</span>
+                </div>
+                <div style="font-size:10px;color:var(--text-tertiary);margin-top:2px;">含鉴定费用</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <div style="width:30px;height:30px;background:var(--surface-3);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <div style="width:30px;height:30px;background:var(--surface-3);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;line-height:1.4;">Air Jordan 1 Retro High OG<br>Chicago 黑红配色</div>
+            <div style="font-size:11px;color:var(--text-secondary);margin-bottom:10px;">Nike · 2024</div>
+            <!-- size pills -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+              <div style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--text-secondary);">US 8</div>
+              <div style="padding:5px 10px;background:rgba(240,165,0,0.12);border:1px solid rgba(240,165,0,0.4);border-radius:6px;font-size:11px;color:var(--gold-400);font-weight:700;">US 9</div>
+              <div style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--text-secondary);">US 10</div>
+              <div style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--text-secondary);">US 11</div>
+              <div style="padding:5px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--text-tertiary);text-decoration:line-through;">US 12</div>
+            </div>
+            <!-- cta -->
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary" style="flex:1;height:38px;font-size:13px;border-radius:10px;">求购</button>
+              <button class="btn btn-primary" style="flex:2;height:38px;font-size:13px;border-radius:10px;">立即购买</button>
+            </div>
+          </div>
+        </div>
+        <div style="height:8px;background:var(--black-2);display:flex;align-items:center;justify-content:center;">
+          <div style="width:80px;height:3px;background:var(--border-strong);border-radius:2px;"></div>
+        </div>
+      </div>
+
+      <!-- Frame 3: 骨架屏 -->
+      <div class="mobile-frame">
+        <div class="mobile-notch"><div class="mobile-notch-pill"></div></div>
+        <div class="mobile-screen" style="padding:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Skeleton Loading</div>
+          <!-- list skeleton -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div class="skeleton skeleton-avatar" style="width:44px;height:44px;"></div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+                <div class="skeleton skeleton-title" style="width:70%;"></div>
+                <div class="skeleton skeleton-text" style="width:45%;"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div class="skeleton skeleton-avatar" style="width:44px;height:44px;"></div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+                <div class="skeleton skeleton-title" style="width:55%;"></div>
+                <div class="skeleton skeleton-text" style="width:35%;"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div class="skeleton skeleton-avatar" style="width:44px;height:44px;"></div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+                <div class="skeleton skeleton-title" style="width:80%;"></div>
+                <div class="skeleton skeleton-text" style="width:50%;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <div class="skeleton skeleton-img" style="width:100%;height:120px;margin-bottom:10px;"></div>
+            <div class="skeleton skeleton-title" style="width:60%;margin-bottom:8px;"></div>
+            <div class="skeleton skeleton-text" style="width:80%;margin-bottom:6px;"></div>
+            <div class="skeleton skeleton-text" style="width:40%;"></div>
+          </div>
+          <!-- product grid skeleton -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;">
+            <div>
+              <div class="skeleton skeleton-img" style="height:80px;margin-bottom:6px;"></div>
+              <div class="skeleton skeleton-text" style="width:80%;margin-bottom:4px;"></div>
+              <div class="skeleton skeleton-text" style="width:50%;"></div>
+            </div>
+            <div>
+              <div class="skeleton skeleton-img" style="height:80px;margin-bottom:6px;"></div>
+              <div class="skeleton skeleton-text" style="width:70%;margin-bottom:4px;"></div>
+              <div class="skeleton skeleton-text" style="width:45%;"></div>
+            </div>
+          </div>
+        </div>
+        <div style="height:8px;background:var(--black-2);display:flex;align-items:center;justify-content:center;">
+          <div style="width:80px;height:3px;background:var(--border-strong);border-radius:2px;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     PATTERNS — EMPTY STATES
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Patterns · 模式</div>
+    <h2 class="section-title">空状态</h2>
+    <p class="section-desc">数据为零时引导用户行动，减少挫败感，保持界面完整性。</p>
 
     <div class="grid-3">
-      <div class="stat-card">
-        <div class="number">~12万+</div>
-        <div class="label">中国GUI外观设计专利累计申请量（截至2025）</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">~1.2万/年</div>
-        <div class="label">近2年年均新增GUI外观设计专利</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">15年</div>
-        <div class="label">新专利法下外观设计保护期限</div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:20px">
-      <h3>GUI专利保护制度演进</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="year">2014年5月</div>
-          <div class="desc">《专利审查指南》修改，正式将GUI纳入外观设计专利保护范围（68号令）</div>
-        </div>
-        <div class="timeline-item">
-          <div class="year">2019年11月</div>
-          <div class="desc">规范GUI外观设计命名规则："用途+产品+图形用户界面"三要素缺一不可</div>
-        </div>
-        <div class="timeline-item">
-          <div class="year">2021年6月</div>
-          <div class="desc">新《专利法》实施：引入局部外观设计制度，外观设计保护期延长至15年，GUI保护更灵活</div>
-        </div>
-        <div class="timeline-item">
-          <div class="year">2024年</div>
-          <div class="desc">中国加入海牙体系，GUI外观设计可一次申请在多个国家获得保护；CNIPA发布新版GUI申请指引</div>
-        </div>
-        <div class="timeline-item">
-          <div class="year">2025年12月</div>
-          <div class="desc">国家知识产权局发布《涉及图形用户界面的产品外观设计专利申请指引》更新版</div>
+      <div class="card">
+        <div class="empty-state">
+          <div class="empty-icon">🛒</div>
+          <div class="empty-title">购物袋是空的</div>
+          <div class="empty-desc">快去探索你喜欢的球鞋和潮流好物吧</div>
+          <button class="btn btn-primary btn-md">去逛逛</button>
         </div>
       </div>
-    </div>
-
-    <div class="card">
-      <h3>中国GUI外观设计专利年度申请量趋势</h3>
-      <div class="chart-container">
-        <canvas id="yearlyTrendChart"></canvas>
+      <div class="card">
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">未找到相关商品</div>
+          <div class="empty-desc">换个关键词试试，或者浏览热门分类</div>
+          <button class="btn btn-secondary btn-md">查看热门</button>
+        </div>
       </div>
-      <div class="callout">
-        <strong>关键发现：</strong>自2014年制度建立以来，GUI专利申请量年均增长超过25%。2021年新专利法实施后出现显著跃升，月均申请量超过800件。2024-2025年受AI设计工具普及和海牙体系加入的双重推动，增速进一步加快。
+      <div class="card">
+        <div class="empty-state">
+          <div class="empty-icon">📦</div>
+          <div class="empty-title">暂无订单记录</div>
+          <div class="empty-desc">下单后可在此查看所有订单进度与物流状态</div>
+          <button class="btn btn-outline btn-md">立即购买</button>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ============ 企业对比 ============ -->
-  <div class="section" id="company">
-    <div class="section-title"><span class="icon">🏢</span> 五大企业设计专利对比</div>
-    <p class="section-desc">基于公开专利数据库检索及行业报告，对比五家头部互联网企业在GUI及设计创新领域的专利布局情况。</p>
 
-    <div class="card">
-      <h3>企业整体专利规模与设计专利占比（截至2025年）</h3>
-      <div class="chart-container-lg">
-        <canvas id="companyCompareChart"></canvas>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>GUI及设计相关专利综合评估</h3>
-      <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:16px">以下数据基于CNIPA公开检索、企业年报及行业研究报告综合估算（2024-2025近两年数据）</p>
-      <table>
-        <thead>
-          <tr>
-            <th>企业</th>
-            <th>整体专利总量</th>
-            <th>GUI外观设计<br>(近2年估算)</th>
-            <th>交互发明专利<br>(近2年估算)</th>
-            <th>设计体系/工具</th>
-            <th>专利活跃度</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>腾讯</strong></td>
-            <td>85,000+</td>
-            <td>~1,200-1,500</td>
-            <td>~2,000+</td>
-            <td>TDesign、CoDesign</td>
-            <td><span class="badge badge-green">极高</span></td>
-          </tr>
-          <tr>
-            <td><strong>阿里巴巴</strong></td>
-            <td>45,000+</td>
-            <td>~1,000-1,300</td>
-            <td>~1,800+</td>
-            <td>Ant Design、凤蝶</td>
-            <td><span class="badge badge-green">极高</span></td>
-          </tr>
-          <tr>
-            <td><strong>字节跳动</strong></td>
-            <td>18,000+</td>
-            <td>~600-900</td>
-            <td>~1,200+</td>
-            <td>Arco Design、Semi Design</td>
-            <td><span class="badge badge-blue">高</span></td>
-          </tr>
-          <tr>
-            <td><strong>京东</strong></td>
-            <td>12,000+</td>
-            <td>~400-600</td>
-            <td>~800+</td>
-            <td>NutUI</td>
-            <td><span class="badge badge-blue">高</span></td>
-          </tr>
-          <tr>
-            <td><strong>拼多多</strong></td>
-            <td>3,000+</td>
-            <td>~150-300</td>
-            <td>~400+</td>
-            <td>内部体系</td>
-            <td><span class="badge badge-orange">中等</span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="callout warning" style="margin-top:16px">
-        <strong>⚠️ 数据说明：</strong>由于各公司未公开披露细分的GUI外观设计专利数量，以上"GUI外观设计"和"交互发明专利"为基于公开专利数据库关键词检索及行业报告的综合估算值，仅供趋势参考。精确数据需通过Incopat、智慧芽等专业专利数据库进一步验证。
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>设计创新专利布局强度对比</h3>
-      <div style="margin-top:12px">
-        <div class="comparison-bar">
-          <span class="label">腾讯</span>
-          <div class="bar-bg"><div class="bar-fill" style="width:95%;background:linear-gradient(90deg,#2563eb,#7c3aed)">综合最强</div></div>
-        </div>
-        <div class="comparison-bar">
-          <span class="label">阿里</span>
-          <div class="bar-bg"><div class="bar-fill" style="width:88%;background:linear-gradient(90deg,#f97316,#ef4444)">电商GUI领先</div></div>
-        </div>
-        <div class="comparison-bar">
-          <span class="label">字节</span>
-          <div class="bar-bg"><div class="bar-fill" style="width:72%;background:linear-gradient(90deg,#06b6d4,#3b82f6)">增速最快</div></div>
-        </div>
-        <div class="comparison-bar">
-          <span class="label">京东</span>
-          <div class="bar-bg"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,#10b981,#059669)">稳步增长</div></div>
-        </div>
-        <div class="comparison-bar">
-          <span class="label">拼多多</span>
-          <div class="bar-bg"><div class="bar-fill" style="width:30%;background:linear-gradient(90deg,#f59e0b,#d97706)">起步阶段</div></div>
-        </div>
-      </div>
-    </div>
+<!-- ============================================
+     PATTERNS — PRICE & CHART
+     ============================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Patterns · 模式</div>
+    <h2 class="section-title">价格展示与走势</h2>
+    <p class="section-desc">核心电商模式：价格标签层级、划线价对比，以及内嵌 SVG Sparkline 展示历史价格趋势。</p>
 
     <div class="grid-2">
-      <div class="card">
-        <h3>各企业GUI专利重点产品线</h3>
-        <table>
-          <tr><td><strong>腾讯</strong></td><td>微信、QQ、腾讯视频、游戏、企业微信、腾讯会议</td></tr>
-          <tr><td><strong>阿里</strong></td><td>淘宝、天猫、支付宝、钉钉、闲鱼、饿了么</td></tr>
-          <tr><td><strong>字节</strong></td><td>抖音、TikTok、飞书、剪映/CapCut、今日头条</td></tr>
-          <tr><td><strong>京东</strong></td><td>京东APP、京东到家、京东金融、京东健康</td></tr>
-          <tr><td><strong>拼多多</strong></td><td>拼多多APP、Temu（海外）</td></tr>
-        </table>
-      </div>
-      <div class="card">
-        <h3>各企业设计团队规模（估算）</h3>
-        <div class="chart-container" style="height:280px">
-          <canvas id="teamSizeChart"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ 专利类型 ============ -->
-  <div class="section" id="patent-type">
-    <div class="section-title"><span class="icon">📋</span> 设计岗位可申请的专利类型</div>
-    <p class="section-desc">设计师可以参与的专利申请远不止GUI外观设计。以下梳理了设计岗位可申请的全部专利类型及其特点。</p>
-
-    <div class="card">
-      <h3>设计相关专利类型全景图</h3>
-      <div class="chart-container-lg">
-        <canvas id="patentTypeChart"></canvas>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div class="card" style="border-left:4px solid #2563eb">
-        <h3>1. GUI外观设计专利</h3>
-        <div class="tag-row">
-          <span class="badge badge-blue">外观设计</span>
-          <span class="badge badge-green">设计师主导</span>
-          <span class="badge badge-orange">授权快</span>
-        </div>
-        <p style="font-size:0.9rem;margin-top:8px">
-          保护对象：包含图形用户界面的产品外观。涵盖静态界面和动态交互过程（如动画过渡、手势反馈等）。<br><br>
-          <strong>优势：</strong>形式审查，通常3-6个月授权；成本低（官费500元）；侵权判断直观。<br>
-          <strong>注意：</strong>需与产品载体结合申请，命名格式为"用途+产品+图形用户界面"。
-        </p>
-      </div>
-
-      <div class="card" style="border-left:4px solid #7c3aed">
-        <h3>2. 交互方法发明专利</h3>
-        <div class="tag-row">
-          <span class="badge badge-purple">发明专利</span>
-          <span class="badge badge-blue">设计师+工程师</span>
-          <span class="badge badge-red">审查周期长</span>
-        </div>
-        <p style="font-size:0.9rem;margin-top:8px">
-          保护对象：人机交互的新方法、新流程。如创新的手势操作、导航方式、信息展示逻辑等。<br><br>
-          <strong>优势：</strong>保护范围广、力度强；20年保护期。<br>
-          <strong>注意：</strong>需实质审查，周期18-24个月；需要技术方案描述，建议设计师与工程师协作撰写。
-        </p>
-      </div>
-
-      <div class="card" style="border-left:4px solid #059669">
-        <h3>3. 用户体验相关发明专利</h3>
-        <div class="tag-row">
-          <span class="badge badge-green">发明专利</span>
-          <span class="badge badge-blue">设计师+产品</span>
-        </div>
-        <p style="font-size:0.9rem;margin-top:8px">
-          保护对象：解决用户体验问题的技术方案。如个性化推荐界面方法、无障碍交互方案、智能布局算法等。<br><br>
-          <strong>优势：</strong>体现UX创新价值，与技术深度融合。<br>
-          <strong>典型方向：</strong>适老化设计方案、多模态交互方法、情境感知UI适配。
-        </p>
-      </div>
-
-      <div class="card" style="border-left:4px solid #d97706">
-        <h3>4. 设计工具/系统发明专利</h3>
-        <div class="tag-row">
-          <span class="badge badge-orange">发明专利</span>
-          <span class="badge badge-purple">设计工程师</span>
-        </div>
-        <p style="font-size:0.9rem;margin-top:8px">
-          保护对象：设计系统中的技术创新。如组件化设计方法、Design Token管理、设计稿自动生成代码等。<br><br>
-          <strong>优势：</strong>技术门槛高、壁垒强。<br>
-          <strong>典型方向：</strong>AI辅助设计布局、设计系统自动化、设计与代码协同工具。
-        </p>
-      </div>
-
-      <div class="card" style="border-left:4px solid #dc2626">
-        <h3>5. 动效/动画外观设计专利</h3>
-        <div class="tag-row">
-          <span class="badge badge-red">外观设计</span>
-          <span class="badge badge-green">动效设计师</span>
-        </div>
-        <p style="font-size:0.9rem;margin-top:8px">
-          保护对象：界面中的动态变化效果。如页面切换动画、加载动效、微交互反馈等。<br><br>
-          <strong>优势：</strong>新专利法允许动态GUI申请外观设计，需要提交关键帧截图说明。<br>
-          <strong>热点方向：</strong>手势驱动动效、3D空间交互动画、AI生成式动效。
-        </p>
-      </div>
-
-      <div class="card" style="border-left:4px solid #06b6d4">
-        <h3>6. 图标/视觉元素外观设计</h3>
-        <div class="tag-row">
-          <span class="badge badge-blue">外观设计</span>
-          <span class="badge badge-green">视觉设计师</span>
-        </div>
-        <p style="font-size:0.9rem;margin-top:8px">
-          保护对象：结合产品的图标系统、视觉元素设计。<br><br>
-          <strong>优势：</strong>局部外观设计制度实施后，可以保护界面中的局部创新设计元素。<br>
-          <strong>注意：</strong>需要与具体产品载体结合，纯粹的图案不能单独申请。
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>各类型专利申请对比</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>维度</th>
-            <th>GUI外观设计</th>
-            <th>交互方法发明</th>
-            <th>UX发明专利</th>
-            <th>设计工具发明</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>审查方式</strong></td>
-            <td>形式审查</td>
-            <td>实质审查</td>
-            <td>实质审查</td>
-            <td>实质审查</td>
-          </tr>
-          <tr>
-            <td><strong>授权周期</strong></td>
-            <td>3-6个月</td>
-            <td>18-24个月</td>
-            <td>18-24个月</td>
-            <td>18-24个月</td>
-          </tr>
-          <tr>
-            <td><strong>保护期限</strong></td>
-            <td>15年</td>
-            <td>20年</td>
-            <td>20年</td>
-            <td>20年</td>
-          </tr>
-          <tr>
-            <td><strong>申请成本</strong></td>
-            <td>低 (~500元官费)</td>
-            <td>高 (~3,500元+代理费)</td>
-            <td>高</td>
-            <td>高</td>
-          </tr>
-          <tr>
-            <td><strong>设计师参与度</strong></td>
-            <td>🟢 主导</td>
-            <td>🟡 协作</td>
-            <td>🟡 协作</td>
-            <td>🟠 辅助</td>
-          </tr>
-          <tr>
-            <td><strong>撰写难度</strong></td>
-            <td>低（提供视图即可）</td>
-            <td>高（需技术方案）</td>
-            <td>中高</td>
-            <td>高</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ============ 趋势分析 ============ -->
-  <div class="section" id="trend">
-    <div class="section-title"><span class="icon">📈</span> 2024-2025 设计专利趋势</div>
-    <p class="section-desc">近两年设计领域专利申请呈现出明确的方向性变化，以下是核心趋势洞察。</p>
-
-    <div class="card">
-      <h3>热门GUI专利申请领域分布</h3>
-      <div class="chart-container">
-        <canvas id="hotFieldChart"></canvas>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div class="card">
-        <h3>🔥 2024-2025 六大热点趋势</h3>
-        <div style="font-size:0.9rem">
-          <p style="margin-bottom:12px"><strong>1. AI 驱动的界面设计</strong><br>大模型对话式UI、AI助手界面、智能推荐展示方式等专利申请激增，各大厂都在抢占AI交互入口。</p>
-          <p style="margin-bottom:12px"><strong>2. 跨端一致性体验</strong><br>手机、平板、PC、可穿戴设备之间的无缝体验切换方案，成为GUI专利新高地。</p>
-          <p style="margin-bottom:12px"><strong>3. 空间计算与XR交互</strong><br>受Apple Vision Pro等产品推动，3D空间交互界面、AR叠加展示等方向专利快速增长。</p>
-          <p style="margin-bottom:12px"><strong>4. 无障碍/适老化设计</strong><br>政策推动下，适老化UI方案、无障碍交互方法类专利成为新增长点。</p>
-          <p style="margin-bottom:12px"><strong>5. 短视频/直播交互创新</strong><br>竖屏沉浸式交互、直播间互动GUI、社交电商界面等成为字节、腾讯等重点布局方向。</p>
-          <p><strong>6. 汽车/IoT场景GUI</strong><br>车载界面、智能家居控制面板等场景GUI专利申请量大幅增长。</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>各企业重点布局方向对比</h3>
-        <table>
-          <thead>
-            <tr><th>方向</th><th>腾讯</th><th>阿里</th><th>字节</th><th>京东</th><th>拼多多</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>AI对话式UI</td>
-              <td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐</td>
-            </tr>
-            <tr>
-              <td>电商购物GUI</td>
-              <td>⭐</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td>
-            </tr>
-            <tr>
-              <td>社交/通讯GUI</td>
-              <td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐</td><td>⭐</td>
-            </tr>
-            <tr>
-              <td>短视频/直播GUI</td>
-              <td>⭐⭐</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐</td><td>⭐</td>
-            </tr>
-            <tr>
-              <td>企业协作GUI</td>
-              <td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐</td><td>—</td>
-            </tr>
-            <tr>
-              <td>金融/支付GUI</td>
-              <td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐</td><td>⭐⭐</td><td>⭐</td>
-            </tr>
-            <tr>
-              <td>XR/空间交互</td>
-              <td>⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td><td>⭐</td><td>—</td>
-            </tr>
-            <tr>
-              <td>无障碍/适老化</td>
-              <td>⭐⭐</td><td>⭐⭐</td><td>⭐</td><td>⭐⭐</td><td>⭐</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>2024-2025 设计相关专利申请量增速（按类型）</h3>
-      <div class="chart-container">
-        <canvas id="growthChart"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ 机会洞察 ============ -->
-  <div class="section" id="opportunity">
-    <div class="section-title"><span class="icon">💡</span> 设计岗位专利申请机会点</div>
-    <p class="section-desc">通过对竞品专利布局的分析，我们识别出以下设计岗位可以重点发力的知识产权申请机会。</p>
-
-    <div class="callout success">
-      <strong>核心发现：</strong>当前互联网大厂的设计专利产出主要集中在GUI外观设计层面，在交互方法发明专利和UX创新发明专利方面，设计师的参与度还有很大提升空间。这正是设计岗位提升知识产权价值的关键突破口。
-    </div>
-
-    <div class="opportunity-card" style="border-left-color:#2563eb">
-      <h4>🎯 机会一：AI + GUI 融合创新（高优先级）</h4>
-      <p style="font-size:0.9rem;color:var(--text-secondary)">
-        各大厂都在布局AIGC，但<strong>AI原生界面交互范式</strong>的专利还处于蓝海。设计师可以聚焦：AI对话式界面的信息架构方法、多模态输入（语音+手势+文字）的界面切换方案、AI生成内容的展示与审核界面等方向。
-      </p>
-      <div class="tag-row">
-        <span class="badge badge-blue">外观设计</span>
-        <span class="badge badge-purple">发明专利</span>
-        <span class="badge badge-green">蓝海领域</span>
-      </div>
-      <div class="difficulty">申请难度：⭐⭐⭐ ｜ 竞争程度：⭐⭐ ｜ 价值评估：⭐⭐⭐⭐⭐</div>
-    </div>
-
-    <div class="opportunity-card" style="border-left-color:#7c3aed">
-      <h4>🎯 机会二：跨端自适应体验方案</h4>
-      <p style="font-size:0.9rem;color:var(--text-secondary)">
-        随着鸿蒙等全场景OS的发展，<strong>一套界面在手机/平板/车机/手表间自适应切换</strong>的GUI方案和交互方法类专利需求旺盛。设计师可以将日常响应式设计经验转化为专利申请。
-      </p>
-      <div class="tag-row">
-        <span class="badge badge-blue">外观设计</span>
-        <span class="badge badge-purple">发明专利</span>
-        <span class="badge badge-orange">竞争中等</span>
-      </div>
-      <div class="difficulty">申请难度：⭐⭐⭐ ｜ 竞争程度：⭐⭐⭐ ｜ 价值评估：⭐⭐⭐⭐</div>
-    </div>
-
-    <div class="opportunity-card" style="border-left-color:#059669">
-      <h4>🎯 机会三：电商场景差异化交互</h4>
-      <p style="font-size:0.9rem;color:var(--text-secondary)">
-        电商是GUI专利最密集的领域之一，但仍有创新空间：<strong>AR试穿/试妆交互界面</strong>、社交化购物导航界面、短视频+电商融合的沉浸式购物界面等方向，与阿里、京东、拼多多形成差异化。
-      </p>
-      <div class="tag-row">
-        <span class="badge badge-blue">外观设计</span>
-        <span class="badge badge-green">设计师主导</span>
-      </div>
-      <div class="difficulty">申请难度：⭐⭐ ｜ 竞争程度：⭐⭐⭐⭐ ｜ 价值评估：⭐⭐⭐⭐</div>
-    </div>
-
-    <div class="opportunity-card" style="border-left-color:#d97706">
-      <h4>🎯 机会四：无障碍与适老化设计专利</h4>
-      <p style="font-size:0.9rem;color:var(--text-secondary)">
-        工信部等部门持续推动数字适老化改造，但目前互联网大厂在此方向的专利布局较薄弱。<strong>适老化UI自动适配方法</strong>、视障人群触觉反馈交互方案、认知障碍友好界面等都是可以深耕的方向。
-      </p>
-      <div class="tag-row">
-        <span class="badge badge-purple">发明专利</span>
-        <span class="badge badge-green">政策利好</span>
-        <span class="badge badge-green">蓝海领域</span>
-      </div>
-      <div class="difficulty">申请难度：⭐⭐⭐ ｜ 竞争程度：⭐ ｜ 价值评估：⭐⭐⭐⭐</div>
-    </div>
-
-    <div class="opportunity-card" style="border-left-color:#dc2626">
-      <h4>🎯 机会五：动态/微交互界面设计</h4>
-      <p style="font-size:0.9rem;color:var(--text-secondary)">
-        新专利法支持动态GUI外观设计专利申请，但目前大多数设计师仍只关注静态界面。<strong>创新的页面转场动效</strong>、手势驱动的连续动画交互、基于物理模拟的界面反馈等方向，动效设计师大有可为。
-      </p>
-      <div class="tag-row">
-        <span class="badge badge-blue">外观设计</span>
-        <span class="badge badge-green">设计师主导</span>
-        <span class="badge badge-orange">新兴领域</span>
-      </div>
-      <div class="difficulty">申请难度：⭐⭐ ｜ 竞争程度：⭐⭐ ｜ 价值评估：⭐⭐⭐</div>
-    </div>
-
-    <div class="opportunity-card" style="border-left-color:#06b6d4">
-      <h4>🎯 机会六：设计系统与工具链创新</h4>
-      <p style="font-size:0.9rem;color:var(--text-secondary)">
-        各大厂都在开源自己的设计系统（Ant Design、TDesign、Arco Design等），但<strong>设计系统内部的技术创新</strong>（如AI驱动的组件推荐、Design Token跨平台同步方法、设计稿智能审查方案等）仍有大量专利空间。
-      </p>
-      <div class="tag-row">
-        <span class="badge badge-purple">发明专利</span>
-        <span class="badge badge-orange">技术门槛高</span>
-      </div>
-      <div class="difficulty">申请难度：⭐⭐⭐⭐ ｜ 竞争程度：⭐⭐ ｜ 价值评估：⭐⭐⭐⭐⭐</div>
-    </div>
-
-    <div class="card">
-      <h3>机会点优先级矩阵</h3>
-      <div class="chart-container-lg">
-        <canvas id="opportunityMatrix"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ 行动建议 ============ -->
-  <div class="section" id="action">
-    <div class="section-title"><span class="icon">🚀</span> 行动建议</div>
-    <p class="section-desc">针对设计岗位如何系统性提升知识产权产出，以下给出分阶段行动计划。</p>
-
-    <div class="grid-2">
-      <div class="card">
-        <h3>📌 短期（0-3个月）：快速产出</h3>
-        <div style="font-size:0.9rem">
-          <p style="margin-bottom:10px"><strong>1. 盘点现有设计产出</strong><br>梳理近半年的GUI设计稿，筛选具有创新性的界面方案，优先申请GUI外观设计专利。</p>
-          <p style="margin-bottom:10px"><strong>2. 建立专利意识</strong><br>设计评审中增加"专利可能性评估"环节，每次设计评审产出1-2个潜在专利点。</p>
-          <p><strong>3. 培训赋能</strong><br>组织设计团队的专利撰写培训，重点讲解GUI外观设计专利的申请流程和图纸要求。</p>
-        </div>
-      </div>
-      <div class="card">
-        <h3>📌 中期（3-6个月）：体系建设</h3>
-        <div style="font-size:0.9rem">
-          <p style="margin-bottom:10px"><strong>1. 设计+研发协同</strong><br>与前端/算法工程师组建跨职能专利小组，挖掘交互方法和UX发明专利。</p>
-          <p style="margin-bottom:10px"><strong>2. 对标竞品布局</strong><br>定期跟踪竞品新公开专利，识别差异化方向，针对性地布局自身专利。</p>
-          <p><strong>3. 激励机制</strong><br>推动建立设计岗位的专利奖励制度，将专利产出纳入绩效评价体系。</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>📌 长期（6-12个月）：战略布局</h3>
-      <div style="font-size:0.9rem">
-        <div class="grid-3">
+      <!-- Price variants -->
+      <div class="demo-panel">
+        <div class="demo-panel-title">价格层级 · Price Hierarchy</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-6);">
+          <!-- regular -->
           <div>
-            <strong>前瞻性方向</strong>
-            <p style="margin-top:6px">围绕AI交互、空间计算、多模态界面等前沿方向进行前瞻性专利储备。</p>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px;">标准价格</div>
+            <div class="price-tag">
+              <span class="price-symbol">¥</span>
+              <span class="price-main">1,299</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-tertiary);margin-top:4px;">含鉴定费 · 到手价</div>
           </div>
+          <!-- sale -->
           <div>
-            <strong>海外布局</strong>
-            <p style="margin-top:6px">利用海牙体系进行核心GUI设计的国际专利申请，保护全球市场。</p>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px;">促销价格</div>
+            <div style="display:flex;align-items:center;gap:var(--space-3);">
+              <div class="price-tag">
+                <span class="price-symbol">¥</span>
+                <span class="price-main">899</span>
+              </div>
+              <div>
+                <span class="badge badge-red" style="font-size:10px;">-31%</span>
+              </div>
+            </div>
+            <div class="price-original" style="margin-top:4px;">原价 ¥1,299</div>
           </div>
+          <!-- multiple sizes -->
           <div>
-            <strong>专利组合</strong>
-            <p style="margin-top:6px">同一设计创新同时申请外观设计+发明专利，形成"双重保护"组合。</p>
+            <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:8px;">尺码价格差异</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface-3);border-radius:var(--radius-md);">
+                <span style="font-size:13px;font-weight:600;color:var(--text-secondary);">US 8</span>
+                <span style="font-size:15px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥1,199</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.3);border-radius:var(--radius-md);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:13px;font-weight:700;color:var(--gold-400);">US 9</span>
+                  <span class="badge badge-gold" style="font-size:9px;">热门</span>
+                </div>
+                <span style="font-size:15px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥1,299</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface-3);border-radius:var(--radius-md);">
+                <span style="font-size:13px;font-weight:600;color:var(--text-secondary);">US 10</span>
+                <span style="font-size:15px;font-weight:800;color:var(--red-400);font-family:var(--font-mono);">¥1,399</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sparkline -->
+      <div class="demo-panel">
+        <div class="demo-panel-title">价格走势 · Price Sparkline</div>
+        <div style="margin-bottom:var(--space-4);">
+          <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:4px;">Air Jordan 1 · US 9 · 近 30 天</div>
+          <div style="display:flex;align-items:baseline;gap:var(--space-3);">
+            <div class="price-tag"><span class="price-symbol">¥</span><span class="price-main" style="font-size:22px;">1,299</span></div>
+            <span style="font-size:12px;color:#4ade80;font-weight:700;">▲ +4.2%</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px;">较上月均价 ¥1,247</div>
+        </div>
+
+        <!-- SVG chart -->
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4);">
+          <svg viewBox="0 0 260 80" style="width:100%;height:80px;overflow:visible;">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F03030" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#F03030" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- area fill -->
+            <path d="M0,60 L20,55 L40,62 L60,50 L80,48 L100,52 L120,40 L140,45 L160,35 L180,42 L200,30 L220,28 L240,22 L260,18 L260,80 L0,80 Z"
+                  fill="url(#lineGrad)"/>
+            <!-- line -->
+            <polyline
+              points="0,60 20,55 40,62 60,50 80,48 100,52 120,40 140,45 160,35 180,42 200,30 220,28 240,22 260,18"
+              fill="none" stroke="#F03030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- dot -->
+            <circle cx="260" cy="18" r="4" fill="#F03030"/>
+            <circle cx="260" cy="18" r="8" fill="rgba(240,48,48,0.2)"/>
+            <!-- y-axis labels -->
+            <text x="0" y="72" font-size="8" fill="#505058" font-family="monospace">1,100</text>
+            <text x="0" y="12" font-size="8" fill="#505058" font-family="monospace">1,400</text>
+          </svg>
+        </div>
+
+        <!-- time filter -->
+        <div class="tabs" style="width:100%;">
+          <div class="tab active" style="flex:1;text-align:center;font-size:11px;" onclick="setTab(this)">7天</div>
+          <div class="tab" style="flex:1;text-align:center;font-size:11px;" onclick="setTab(this)">30天</div>
+          <div class="tab" style="flex:1;text-align:center;font-size:11px;" onclick="setTab(this)">90天</div>
+          <div class="tab" style="flex:1;text-align:center;font-size:11px;" onclick="setTab(this)">1年</div>
+        </div>
+
+        <div style="margin-top:var(--space-4);display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-3);">
+          <div style="text-align:center;padding:var(--space-3);background:var(--surface-2);border-radius:var(--radius-md);">
+            <div style="font-size:13px;font-weight:800;color:#fff;font-family:var(--font-mono);">1,199</div>
+            <div style="font-size:10px;color:var(--text-tertiary);margin-top:2px;">最低价</div>
+          </div>
+          <div style="text-align:center;padding:var(--space-3);background:var(--surface-2);border-radius:var(--radius-md);">
+            <div style="font-size:13px;font-weight:800;color:#fff;font-family:var(--font-mono);">1,247</div>
+            <div style="font-size:10px;color:var(--text-tertiary);margin-top:2px;">均价</div>
+          </div>
+          <div style="text-align:center;padding:var(--space-3);background:var(--surface-2);border-radius:var(--radius-md);">
+            <div style="font-size:13px;font-weight:800;color:#fff;font-family:var(--font-mono);">1,499</div>
+            <div style="font-size:10px;color:var(--text-tertiary);margin-top:2px;">最高价</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     DESIGN TOKENS — CODE EXPORT
+     ============================================ -->
+<section class="section" id="tokens">
+  <div class="container">
+    <div class="section-label">Tokens · 设计令牌</div>
+    <h2 class="section-title">令牌导出</h2>
+    <p class="section-desc">所有设计决策以令牌形式固化，支持 CSS 变量、JSON 和 Figma 变量三种格式导出，确保设计与代码双端同步。</p>
+
+    <div class="grid-2">
+      <!-- CSS -->
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-3);">CSS Variables</div>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dots">
+              <div class="code-dot" style="background:#FF5F56;"></div>
+              <div class="code-dot" style="background:#FFBD2E;"></div>
+              <div class="code-dot" style="background:#27C93F;"></div>
+            </div>
+            <span class="code-block-lang">tokens.css</span>
+            <span class="code-block-copy" onclick="this.textContent='已复制 ✓';setTimeout(()=>this.textContent='复制',1500)">复制</span>
+          </div>
+          <div class="code-block-body">
+<span class="tok-comment">/* ── Color ── */</span>
+<span class="tok-prop">:root</span> <span class="tok-punct">{</span>
+  <span class="tok-key">--color-brand</span><span class="tok-punct">:</span> <span class="tok-str">#FFB800</span><span class="tok-punct">;</span>
+  <span class="tok-key">--color-brand-dim</span><span class="tok-punct">:</span> <span class="tok-str">#F0A500</span><span class="tok-punct">;</span>
+  <span class="tok-key">--color-danger</span><span class="tok-punct">:</span> <span class="tok-str">#F03030</span><span class="tok-punct">;</span>
+  <span class="tok-key">--color-surface</span><span class="tok-punct">:</span> <span class="tok-str">#16161C</span><span class="tok-punct">;</span>
+  <span class="tok-key">--color-surface-2</span><span class="tok-punct">:</span> <span class="tok-str">#1E1E26</span><span class="tok-punct">;</span>
+  <span class="tok-key">--color-text</span><span class="tok-punct">:</span> <span class="tok-str">#FFFFFF</span><span class="tok-punct">;</span>
+  <span class="tok-key">--color-text-2</span><span class="tok-punct">:</span> <span class="tok-str">#A0A0A8</span><span class="tok-punct">;</span>
+<span class="tok-comment">  /* ── Spacing ── */</span>
+  <span class="tok-key">--space-1</span><span class="tok-punct">:</span> <span class="tok-num">4px</span><span class="tok-punct">;</span>
+  <span class="tok-key">--space-2</span><span class="tok-punct">:</span> <span class="tok-num">8px</span><span class="tok-punct">;</span>
+  <span class="tok-key">--space-4</span><span class="tok-punct">:</span> <span class="tok-num">16px</span><span class="tok-punct">;</span>
+  <span class="tok-key">--space-8</span><span class="tok-punct">:</span> <span class="tok-num">32px</span><span class="tok-punct">;</span>
+<span class="tok-comment">  /* ── Radius ── */</span>
+  <span class="tok-key">--radius-sm</span><span class="tok-punct">:</span> <span class="tok-num">4px</span><span class="tok-punct">;</span>
+  <span class="tok-key">--radius-md</span><span class="tok-punct">:</span> <span class="tok-num">8px</span><span class="tok-punct">;</span>
+  <span class="tok-key">--radius-lg</span><span class="tok-punct">:</span> <span class="tok-num">12px</span><span class="tok-punct">;</span>
+  <span class="tok-key">--radius-xl</span><span class="tok-punct">:</span> <span class="tok-num">16px</span><span class="tok-punct">;</span>
+<span class="tok-punct">}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- JSON -->
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-3);">Design Tokens JSON</div>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dots">
+              <div class="code-dot" style="background:#FF5F56;"></div>
+              <div class="code-dot" style="background:#FFBD2E;"></div>
+              <div class="code-dot" style="background:#27C93F;"></div>
+            </div>
+            <span class="code-block-lang">tokens.json</span>
+            <span class="code-block-copy" onclick="this.textContent='已复制 ✓';setTimeout(()=>this.textContent='复制',1500)">复制</span>
+          </div>
+          <div class="code-block-body">
+<span class="tok-punct">{</span>
+  <span class="tok-key">"color"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+    <span class="tok-key">"brand"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+      <span class="tok-key">"400"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+        <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"#FFB800"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"type"</span><span class="tok-punct">:</span> <span class="tok-str">"color"</span>
+      <span class="tok-punct">}</span>
+    <span class="tok-punct">}</span><span class="tok-punct">,</span>
+    <span class="tok-key">"danger"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+      <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"#F03030"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"type"</span><span class="tok-punct">:</span> <span class="tok-str">"color"</span>
+    <span class="tok-punct">}</span>
+  <span class="tok-punct">}</span><span class="tok-punct">,</span>
+  <span class="tok-key">"spacing"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+    <span class="tok-key">"1"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span> <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"4"</span><span class="tok-punct">,</span> <span class="tok-key">"unit"</span><span class="tok-punct">:</span> <span class="tok-str">"px"</span> <span class="tok-punct">}</span><span class="tok-punct">,</span>
+    <span class="tok-key">"4"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span> <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"16"</span><span class="tok-punct">,</span> <span class="tok-key">"unit"</span><span class="tok-punct">:</span> <span class="tok-str">"px"</span> <span class="tok-punct">}</span><span class="tok-punct">,</span>
+    <span class="tok-key">"8"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span> <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"32"</span><span class="tok-punct">,</span> <span class="tok-key">"unit"</span><span class="tok-punct">:</span> <span class="tok-str">"px"</span> <span class="tok-punct">}</span>
+  <span class="tok-punct">}</span><span class="tok-punct">,</span>
+  <span class="tok-key">"borderRadius"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+    <span class="tok-key">"md"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span> <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"8"</span><span class="tok-punct">,</span> <span class="tok-key">"unit"</span><span class="tok-punct">:</span> <span class="tok-str">"px"</span> <span class="tok-punct">}</span><span class="tok-punct">,</span>
+    <span class="tok-key">"xl"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span> <span class="tok-key">"value"</span><span class="tok-punct">:</span> <span class="tok-str">"16"</span><span class="tok-punct">,</span> <span class="tok-key">"unit"</span><span class="tok-punct">:</span> <span class="tok-str">"px"</span> <span class="tok-punct">}</span>
+  <span class="tok-punct">}</span>
+<span class="tok-punct">}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="callout success">
-      <strong>💡 核心结论：</strong>在五大互联网企业中，腾讯和阿里的设计专利布局最为成熟，字节跳动增速最快。对于设计岗位而言，最大的机会在于：① 从单纯的GUI外观设计向交互方法发明专利拓展；② 抢占AI原生界面、空间计算等新兴领域；③ 建立设计团队系统化的专利产出机制。拼多多和京东在设计专利方面的布局相对薄弱，存在被竞品压制的风险，但同时也意味着更多的布局空间。
+    <!-- Token stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);margin-top:var(--space-8);">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-5);text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--gold-400);font-family:var(--font-mono);letter-spacing:-0.03em;">48</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">颜色令牌</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-5);text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--gold-400);font-family:var(--font-mono);letter-spacing:-0.03em;">10</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">间距令牌</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-5);text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--gold-400);font-family:var(--font-mono);letter-spacing:-0.03em;">6</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">圆角令牌</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-5);text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--gold-400);font-family:var(--font-mono);letter-spacing:-0.03em;">4</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">动效时长</div>
+      </div>
     </div>
   </div>
+</section>
 
-</div>
 
-<div class="footer">
-  <p>互联网大厂 GUI 与设计创新专利调研报告 · 2026年4月</p>
-  <p style="margin-top:6px">数据来源：CNIPA国家知识产权局 · WIPO世界知识产权组织 · 企业年报及公开信息 · 行业研究报告</p>
-  <p style="margin-top:6px;font-size:0.8rem;opacity:0.7">本报告中的专利数量为基于公开信息的综合估算，精确数据请以CNIPA官方数据库查询结果为准</p>
-</div>
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="flex items-center gap-3" style="margin-bottom:var(--space-2);">
+          <div class="nav-logo-mark" style="width:26px;height:26px;font-size:11px;">DW</div>
+          <span style="font-size:14px;font-weight:700;color:var(--text-secondary);">DW Design System</span>
+        </div>
+        <div class="footer-copy">© 2026 得物设计团队 · 保留所有权利</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="#">设计原则</a>
+        <a href="#">更新日志</a>
+        <a href="#">贡献指南</a>
+        <a href="#">联系我们</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
-// Color palette
-const colors = {
-  tencent: '#2563eb',
-  alibaba: '#f97316',
-  bytedance: '#06b6d4',
-  jd: '#10b981',
-  pdd: '#f59e0b'
-};
+function setTab(el) {
+  const tabs = el.closest('.tabs').querySelectorAll('.tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
 
-// 1. 年度趋势图
-const yearlyCtx = document.getElementById('yearlyTrendChart').getContext('2d');
-new Chart(yearlyCtx, {
-  type: 'bar',
-  data: {
-    labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025(估)'],
-    datasets: [{
-      label: 'GUI外观设计专利年度申请量',
-      data: [2000, 6000, 9000, 9500, 10000, 10500, 11000, 12000, 13000, 13500, 14000, 14500],
-      backgroundColor: 'rgba(37,99,235,0.7)',
-      borderColor: '#2563eb',
-      borderWidth: 1,
-      borderRadius: 4
-    }, {
-      label: '累计授权量',
-      data: [1500, 5000, 11000, 18000, 26000, 35000, 44000, 55000, 67000, 80000, 95000, 110000],
-      type: 'line',
-      borderColor: '#7c3aed',
-      backgroundColor: 'rgba(124,58,237,0.1)',
-      fill: true,
-      tension: 0.4,
-      yAxisID: 'y1',
-      pointRadius: 4
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: { title: { display: true, text: '年度申请量（件）' }, beginAtZero: true },
-      y1: { position: 'right', title: { display: true, text: '累计授权量（件）' }, beginAtZero: true, grid: { display: false } }
-    },
-    plugins: {
-      legend: { position: 'top' }
+/* Intersection Observer — animate sections on scroll */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
     }
-  }
-});
-
-// 2. 企业对比图
-const companyCtx = document.getElementById('companyCompareChart').getContext('2d');
-new Chart(companyCtx, {
-  type: 'bar',
-  data: {
-    labels: ['腾讯', '阿里巴巴', '字节跳动', '京东', '拼多多'],
-    datasets: [{
-      label: '整体专利总量（千件）',
-      data: [85, 45, 18, 12, 3],
-      backgroundColor: [colors.tencent, colors.alibaba, colors.bytedance, colors.jd, colors.pdd],
-      borderRadius: 6
-    }, {
-      label: 'GUI外观设计专利（近2年估算，百件）',
-      data: [13.5, 11.5, 7.5, 5, 2.2],
-      backgroundColor: ['rgba(37,99,235,0.4)', 'rgba(249,115,22,0.4)', 'rgba(6,182,212,0.4)', 'rgba(16,185,129,0.4)', 'rgba(245,158,11,0.4)'],
-      borderColor: [colors.tencent, colors.alibaba, colors.bytedance, colors.jd, colors.pdd],
-      borderWidth: 2,
-      borderRadius: 6
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: { title: { display: true, text: '数量' }, beginAtZero: true }
-    },
-    plugins: {
-      legend: { position: 'top' },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) {
-            if (ctx.datasetIndex === 0) return ctx.dataset.label + ': ' + ctx.raw + '千件';
-            return ctx.dataset.label + ': ~' + (ctx.raw * 100) + '件';
-          }
-        }
-      }
-    }
-  }
-});
-
-// 3. 设计团队规模
-const teamCtx = document.getElementById('teamSizeChart').getContext('2d');
-new Chart(teamCtx, {
-  type: 'doughnut',
-  data: {
-    labels: ['腾讯 (~2000+)', '阿里 (~1800+)', '字节 (~1500+)', '京东 (~800+)', '拼多多 (~400+)'],
-    datasets: [{
-      data: [2000, 1800, 1500, 800, 400],
-      backgroundColor: [colors.tencent, colors.alibaba, colors.bytedance, colors.jd, colors.pdd],
-      borderWidth: 2,
-      borderColor: '#fff'
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { size: 11 } } }
-    }
-  }
-});
-
-// 4. 专利类型分布
-const typeCtx = document.getElementById('patentTypeChart').getContext('2d');
-new Chart(typeCtx, {
-  type: 'polarArea',
-  data: {
-    labels: ['GUI外观设计', '交互方法发明', 'UX相关发明', '设计工具发明', '动效外观设计', '图标/视觉外观'],
-    datasets: [{
-      data: [40, 25, 15, 8, 7, 5],
-      backgroundColor: [
-        'rgba(37,99,235,0.7)',
-        'rgba(124,58,237,0.7)',
-        'rgba(5,150,105,0.7)',
-        'rgba(217,119,6,0.7)',
-        'rgba(220,38,38,0.7)',
-        'rgba(6,182,212,0.7)'
-      ]
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'right' },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) { return ctx.label + ': 约' + ctx.raw + '%'; }
-        }
-      }
-    }
-  }
-});
-
-// 5. 热门领域
-const hotCtx = document.getElementById('hotFieldChart').getContext('2d');
-new Chart(hotCtx, {
-  type: 'radar',
-  data: {
-    labels: ['电商购物', '社交通讯', '短视频/直播', '企业协作', '金融支付', 'AI对话', '游戏娱乐', '出行/地图'],
-    datasets: [{
-      label: '腾讯',
-      data: [50, 95, 70, 85, 60, 80, 90, 40],
-      borderColor: colors.tencent,
-      backgroundColor: 'rgba(37,99,235,0.1)',
-      pointBackgroundColor: colors.tencent
-    }, {
-      label: '阿里',
-      data: [95, 60, 50, 80, 90, 75, 30, 70],
-      borderColor: colors.alibaba,
-      backgroundColor: 'rgba(249,115,22,0.1)',
-      pointBackgroundColor: colors.alibaba
-    }, {
-      label: '字节',
-      data: [65, 80, 95, 75, 30, 85, 50, 35],
-      borderColor: colors.bytedance,
-      backgroundColor: 'rgba(6,182,212,0.1)',
-      pointBackgroundColor: colors.bytedance
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      r: {
-        beginAtZero: true,
-        max: 100,
-        ticks: { font: { size: 10 } },
-        pointLabels: { font: { size: 11 } }
-      }
-    },
-    plugins: { legend: { position: 'top' } }
-  }
-});
-
-// 6. 增速图
-const growthCtx = document.getElementById('growthChart').getContext('2d');
-new Chart(growthCtx, {
-  type: 'bar',
-  data: {
-    labels: ['AI交互界面', '短视频/直播GUI', '跨端自适应', '无障碍/适老化', 'AR/VR界面', '电商GUI', '企业协作GUI', '传统工具GUI'],
-    datasets: [{
-      label: '2024-2025 同比增速 (%)',
-      data: [120, 65, 55, 50, 45, 25, 20, 5],
-      backgroundColor: [
-        'rgba(220,38,38,0.8)',
-        'rgba(249,115,22,0.8)',
-        'rgba(217,119,6,0.8)',
-        'rgba(124,58,237,0.8)',
-        'rgba(6,182,212,0.8)',
-        'rgba(37,99,235,0.7)',
-        'rgba(16,185,129,0.7)',
-        'rgba(148,163,184,0.7)'
-      ],
-      borderRadius: 6
-    }]
-  },
-  options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: { title: { display: true, text: '同比增速 (%)' }, beginAtZero: true }
-    },
-    plugins: { legend: { display: false } }
-  }
-});
-
-// 7. 机会矩阵散点图
-const matrixCtx = document.getElementById('opportunityMatrix').getContext('2d');
-new Chart(matrixCtx, {
-  type: 'bubble',
-  data: {
-    datasets: [{
-      label: 'AI+GUI融合',
-      data: [{ x: 70, y: 90, r: 22 }],
-      backgroundColor: 'rgba(37,99,235,0.6)',
-      borderColor: '#2563eb'
-    }, {
-      label: '跨端自适应',
-      data: [{ x: 55, y: 75, r: 16 }],
-      backgroundColor: 'rgba(124,58,237,0.6)',
-      borderColor: '#7c3aed'
-    }, {
-      label: '电商差异化交互',
-      data: [{ x: 40, y: 70, r: 18 }],
-      backgroundColor: 'rgba(5,150,105,0.6)',
-      borderColor: '#059669'
-    }, {
-      label: '无障碍/适老化',
-      data: [{ x: 55, y: 80, r: 15 }],
-      backgroundColor: 'rgba(217,119,6,0.6)',
-      borderColor: '#d97706'
-    }, {
-      label: '动态微交互',
-      data: [{ x: 35, y: 60, r: 13 }],
-      backgroundColor: 'rgba(220,38,38,0.6)',
-      borderColor: '#dc2626'
-    }, {
-      label: '设计工具创新',
-      data: [{ x: 75, y: 85, r: 14 }],
-      backgroundColor: 'rgba(6,182,212,0.6)',
-      borderColor: '#06b6d4'
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: { title: { display: true, text: '申请难度 →' }, min: 20, max: 90 },
-      y: { title: { display: true, text: '战略价值 →' }, min: 40, max: 100 }
-    },
-    plugins: {
-      legend: { position: 'top', labels: { font: { size: 11 } } },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) {
-            return ctx.dataset.label + ' - 难度:' + ctx.raw.x + ' 价值:' + ctx.raw.y;
-          }
-        }
-      }
-    }
-  }
-});
-
-// Nav scroll active
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.nav-bar a');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
   });
-  navLinks.forEach(a => {
-    a.classList.remove('active');
-    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
-  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.section').forEach(s => {
+  s.style.opacity = '0';
+  s.style.transform = 'translateY(24px)';
+  s.style.transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+  observer.observe(s);
 });
+
+/* Nav active link on scroll */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.getAttribute('id');
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => navObserver.observe(s));
 </script>
-
 </body>
 </html>
